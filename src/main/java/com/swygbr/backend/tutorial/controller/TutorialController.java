@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swygbr.backend.tutorial.dto.RequestTutorialInsertDto;
 import com.swygbr.backend.tutorial.dto.TutorialDto;
+import com.swygbr.backend.tutorial.enums.BotType;
 import com.swygbr.backend.tutorial.enums.TutorialType;
 import com.swygbr.backend.tutorial.service.TutorialService;
 
@@ -27,13 +28,13 @@ public class TutorialController {
   private TutorialService tutorialService;
 
   // 현재 인증된 사용자의 튜토리얼 완료 여부 조회
-  @GetMapping
-  public ResponseEntity<?> getAllTutorial() {
-    return ResponseEntity.ok(tutorialService.findAllTutorial());
+  @GetMapping("/completion")
+  public ResponseEntity<?> getCompletion() {
+    return ResponseEntity.ok(tutorialService.checkCompletion());
   }
 
   // 튜토리얼 채팅 시작
-  @GetMapping("/chat/{chatId}")
+  @GetMapping("/{botType}/start")
   public ResponseEntity<?> getTutorialStart(@PathVariable BotType botType) {
     return ResponseEntity.ok(tutorialService.findTutorialStartMessage(botType));
   }

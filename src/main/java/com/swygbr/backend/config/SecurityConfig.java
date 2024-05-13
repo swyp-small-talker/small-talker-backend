@@ -1,5 +1,7 @@
 package com.swygbr.backend.config;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -18,6 +18,17 @@ public class SecurityConfig {
     @Profile("local")
     public WebSecurityCustomizer localConfig() {
         return (web) -> web.ignoring().requestMatchers(PathRequest.toH2Console());
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/tutorial/**").authenticated()
+                        .anyRequest().authenticated())
+                .formLogin(withDefaults())
+                .httpBasic(withDefaults());
+        return http.build();
     }
 
 }
