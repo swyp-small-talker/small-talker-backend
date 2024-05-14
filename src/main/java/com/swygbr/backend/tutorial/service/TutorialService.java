@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.swygbr.backend.tutorial.domain.TutorialEntity;
+import com.swygbr.backend.tutorial.dto.RequestTutorialInputDto;
 import com.swygbr.backend.tutorial.dto.TutorialDto;
 import com.swygbr.backend.tutorial.dto.TutorialStatusDto;
+import com.swygbr.backend.tutorial.enums.TutorialMessageInputType;
 import com.swygbr.backend.tutorial.repository.TutorialRepository;
 import com.swygbr.backend.user.domain.UserEntity;
 import com.swygbr.backend.user.repository.UserRepository;
@@ -38,6 +40,17 @@ public class TutorialService {
         TutorialEntity entity = tutorialRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "튜토리얼을 찾을 수 없습니다."));
         return TutorialDto.fromEntity(entity);
+    }
+
+    public void submitInput(RequestTutorialInputDto request) {
+        UserEntity userEntity = getDefaultUser();
+
+        if (request.inputType() == TutorialMessageInputType.USER_NAME) {
+            userEntity.setName(request.data());
+            return;
+        }
+
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "지원하지 않는 input type 입니다.");
     }
 
     private UserEntity getDefaultUser() {
