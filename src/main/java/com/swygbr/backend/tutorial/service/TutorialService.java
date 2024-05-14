@@ -1,5 +1,6 @@
 package com.swygbr.backend.tutorial.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -7,11 +8,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.swygbr.backend.tutorial.domain.TutorialEntity;
+import com.swygbr.backend.tutorial.domain.TutorialMessageChoiceEntity;
+import com.swygbr.backend.tutorial.domain.UserCardEntity;
+import com.swygbr.backend.tutorial.dto.RequestTutorialChoiceDto;
 import com.swygbr.backend.tutorial.dto.RequestTutorialInputDto;
+import com.swygbr.backend.tutorial.dto.ResponseTutorialChoiceDto;
 import com.swygbr.backend.tutorial.dto.TutorialDto;
 import com.swygbr.backend.tutorial.dto.TutorialStatusDto;
+import com.swygbr.backend.tutorial.enums.TutorialMessageChoiceType;
 import com.swygbr.backend.tutorial.enums.TutorialMessageInputType;
+import com.swygbr.backend.tutorial.enums.TutorialType;
+import com.swygbr.backend.tutorial.enums.UserCardType;
+import com.swygbr.backend.tutorial.repository.TutorialMessageChoiceRepository;
 import com.swygbr.backend.tutorial.repository.TutorialRepository;
+import com.swygbr.backend.tutorial.repository.UserCardRepository;
 import com.swygbr.backend.user.domain.UserEntity;
 import com.swygbr.backend.user.repository.UserRepository;
 
@@ -25,6 +35,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TutorialService {
     private final TutorialRepository tutorialRepository;
+    private final TutorialMessageChoiceRepository choiceRepository;
+    private final UserCardRepository userCardRepository;
     private final UserRepository userRepository;
 
     public List<TutorialStatusDto> findTutorialStatus() {
@@ -47,14 +59,54 @@ public class TutorialService {
 
         if (request.inputType() == TutorialMessageInputType.USER_NAME) {
             userEntity.setName(request.data());
-            return;
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "지원하지 않는 inputType입니다.");
         }
-
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "지원하지 않는 input type 입니다.");
     }
 
     private UserEntity getDefaultUser() {
         return userRepository.findById(1L)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "기본 유저를 찾을 수 없습니다."));
+    }
+
+    public ResponseTutorialChoiceDto submitChoice(RequestTutorialChoiceDto request) {
+        UserEntity userEntity = getDefaultUser();
+
+        if (TutorialType.USER_CARD == request.tutorialType()) {
+            int reactionCount = 0;
+            int myStoryCount = 0;
+            int questionCount = 0;
+            Iterator<Long> iterator = request.userChoices().iterator();
+
+            while (iterator.hasNext()) {
+                Long choiceId = iterator.next();
+                TutorialMessageChoiceEntity choiceEntity = choiceRepository.findById(choiceId)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "선택지를 찾을 수 없습니다."));
+                TutorialMessageChoiceType choiceType = choiceEntity.getChoiceType();
+                if (TutorialMessageChoiceType.REACTION == choiceType) {
+                    reactionCount++;
+                } else if (TutorialMessageChoiceType.MY_STORY == choiceType) {
+                    myStoryCount++;
+                } else if (TutorialMessageChoiceType.QUESTION == choiceType) {
+                    questionCount++;
+                }
+            }
+
+            UserCardEntity userCardEntity = null;
+            if (reactionCount >= 2) {
+                userCardEntity = userCardRepository.findByTitle(UserCardType.REACTION_BOT.getTitle());
+            } else if (myStoryCount >= 2) {
+                userCardEntity = userCardRepository.findByTitle(UserCardType.TOO_MUCH_TALKER.getTitle());
+            } else if (questionCount >= 2) {
+                userCardEntity = userCardRepository.findByTitle(UserCardType.QUESTION_BOMBER.getTitle());
+            } else {
+                userCardEntity = userCardRepository.findByTitle(UserCardType.MODEL_STUDENT.getTitle());
+            }
+            userEntity.assignUserCard(userCardEntity);
+
+            return ResponseTutorialChoiceDto.fromEntity(userCardEntity);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "지원하지 않는 선택지입니다.");
+        }
     }
 }
