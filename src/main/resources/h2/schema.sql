@@ -17,7 +17,7 @@ CREATE TABLE Users (
 );
 CREATE TABLE Tutorial (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
-  tutorialType VARCHAR(10) NOT NULL,
+  tutorialType VARCHAR(20) NOT NULL,
   isStart BOOLEAN DEFAULT false NOT NULL,
   nextTutorialFk BIGINT,
   FOREIGN KEY (nextTutorialFk) REFERENCES Tutorial (id)
@@ -25,22 +25,28 @@ CREATE TABLE Tutorial (
 CREATE TABLE TutorialMessage (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   tutorialFk BIGINT,
-  messageType VARCHAR(10),
+  messageType VARCHAR(20),
   FOREIGN KEY (tutorialFk) REFERENCES Tutorial (id)
 );
 CREATE TABLE TutorialMessageText (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   messageFk BIGINT UNIQUE,
-  actorType VARCHAR(10) NOT NULL,
-  textType VARCHAR(10),
+  actorType VARCHAR(20) NOT NULL,
+  textType VARCHAR(20),
   content VARCHAR(255) NOT NULL,
+  FOREIGN KEY (messageFk) REFERENCES TutorialMessage (id)
+);
+CREATE TABLE TutorialMessageInput (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  messageFk BIGINT UNIQUE,
+  inputType VARCHAR(20),
   FOREIGN KEY (messageFk) REFERENCES TutorialMessage (id)
 );
 CREATE TABLE TutorialMessageChoice (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   messageFk BIGINT NOT NULL,
   reactionTutorialFk BIGINT UNIQUE NOT NULL,
-  choiceType VARCHAR(10) NOT NULL,
+  choiceType VARCHAR(20) NOT NULL,
   content VARCHAR(255) NOT NULL,
   FOREIGN KEY (messageFk) REFERENCES TutorialMessage (id),
   FOREIGN KEY (reactionTutorialFk) REFERENCES Tutorial (id)
