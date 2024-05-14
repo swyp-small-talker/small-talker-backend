@@ -34,6 +34,12 @@ public class TutorialService {
                 .toList();
     }
 
+    public TutorialDto findTutorialById(Long id) {
+        TutorialEntity entity = tutorialRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "튜토리얼을 찾을 수 없습니다."));
+        return TutorialDto.fromEntity(entity);
+    }
+
     private UserEntity getDefaultUser() {
         return userRepository.findById(1L)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "기본 유저를 찾을 수 없습니다."));
