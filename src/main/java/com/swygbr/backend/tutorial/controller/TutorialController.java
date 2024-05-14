@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.swygbr.backend.tutorial.dto.RequestTutorialChoiceDto;
 import com.swygbr.backend.tutorial.dto.RequestTutorialInputDto;
+import com.swygbr.backend.tutorial.dto.ResponseTutorialChoiceDto;
 import com.swygbr.backend.tutorial.service.TutorialService;
 
 import jakarta.validation.Valid;
@@ -39,5 +41,11 @@ public class TutorialController {
     tutorialService.submitInput(request);
     return ResponseEntity.ok().build();
   }
-  
+
+  // 튜토리얼 선택지 제출
+  @PostMapping("/choice")
+  public ResponseEntity<?> postChoice(@RequestBody RequestTutorialChoiceDto request) {
+    ResponseTutorialChoiceDto submitChoice = tutorialService.submitChoice(request);
+    return ResponseEntity.ok(submitChoice);
+  }
 }
