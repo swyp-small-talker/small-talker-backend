@@ -18,7 +18,9 @@ CREATE TABLE Users (
 CREATE TABLE Tutorial (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   tutorialType VARCHAR(10) NOT NULL,
-  isStart BOOLEAN DEFAULT false NOT NULL
+  isStart BOOLEAN DEFAULT false NOT NULL,
+  nextTutorialFk BIGINT,
+  FOREIGN KEY (nextTutorialFk) REFERENCES Tutorial (id)
 );
 CREATE TABLE TutorialMessage (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
