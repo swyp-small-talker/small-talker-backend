@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.swygbr.backend.tutorial.domain.TutorialMessageEntity;
 import com.swygbr.backend.tutorial.enums.TutorialMessageType;
 
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(Include.NON_EMPTY)
 public record TutorialMessageDto(Long id, TutorialMessageType messageType, TutorialMessageTextDto text,
         List<TutorialMessageChoiceDto> choices) {
     static public TutorialMessageDto fromEntity(TutorialMessageEntity entity) {
