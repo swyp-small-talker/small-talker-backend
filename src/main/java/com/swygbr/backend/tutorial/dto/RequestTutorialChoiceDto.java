@@ -4,5 +4,5 @@ import java.util.List;
 
 import com.swygbr.backend.tutorial.enums.TutorialType;
 
-public record RequestTutorialChoiceDto(TutorialType tutorialType, List<TutorialUserChoiceDto> userChoices) {
+public record RequestTutorialChoiceDto(TutorialType tutorialType, List<Long> userChoices) {
 }
