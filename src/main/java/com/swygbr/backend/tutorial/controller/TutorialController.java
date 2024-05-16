@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.swygbr.backend.tutorial.dto.RequestTutorialInputDto;
 import com.swygbr.backend.tutorial.service.TutorialService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/tutorial")
 public class TutorialController {
@@ -33,7 +35,7 @@ public class TutorialController {
 
   // 튜토리얼 입력
   @PostMapping("/input")
-  public ResponseEntity<?> postInput(@RequestBody RequestTutorialInputDto request) {
+  public ResponseEntity<?> postInput(@RequestBody @Valid RequestTutorialInputDto request) {
     tutorialService.submitInput(request);
     return ResponseEntity.ok().build();
   }
