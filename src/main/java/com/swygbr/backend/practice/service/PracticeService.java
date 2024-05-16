@@ -26,12 +26,15 @@ public class PracticeService {
     public List<CharacterMain> getCharacterList() {
         return characterMainRepository.findAll();
     }
+
     public CharacterMain getCharacterById(String characterId) {
         return characterMainRepository.findById(characterId).orElse(null);
     }
+
     public List<CharacterInfo> getCharacterInfos(String characterId) {
         return characterInfoRepository.findByCharacterId(characterId);
     }
+
     public List<Object[]> getCharacterKeywords(String characterId) {
         return characterInfoRepository.findCharacterInfoWithDetailsByCharacterId(characterId);
     }
@@ -40,10 +43,12 @@ public class PracticeService {
     public List<EpisodeMain> getAllEpisodes() {
         return episodeMainRepository.findAll();
     }
+
     public EpisodeMain getEpisodeById(String episodeId) {
         return episodeMainRepository.findById(
                 new EpisodeMainPk(episodeId, "CH001", "USER001")).orElse(null);
     }
+
     public List<EpisodeMain> getEpisodesByCharacterId(String characterId) {
         return episodeMainRepository.findByCharacterId(characterId);
     }
@@ -56,6 +61,4 @@ public class PracticeService {
         return episodeDialogRepository.findChildrenByParentDialogId(chatId);
     }
 
-
 }
-
