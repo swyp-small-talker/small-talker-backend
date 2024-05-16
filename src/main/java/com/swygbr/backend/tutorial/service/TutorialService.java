@@ -1,8 +1,12 @@
 package com.swygbr.backend.tutorial.service;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.hibernate.mapping.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -76,13 +80,15 @@ public class TutorialService {
             int reactionCount = 0;
             int myStoryCount = 0;
             int questionCount = 0;
-            Iterator<Long> iterator = request.userChoices().iterator();
 
+            Iterator<Long> iterator = request.userChoices().iterator();
+            Set<Long> tutorialSet = new HashSet<>();
             while (iterator.hasNext()) {
                 Long choiceId = iterator.next();
                 TutorialMessageChoiceEntity choiceEntity = choiceRepository.findById(choiceId)
                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "선택지를 찾을 수 없습니다."));
                 TutorialMessageChoiceType choiceType = choiceEntity.getChoiceType();
+                tutorialSet.add(choiceEntity.getMessage().getId());
                 if (TutorialMessageChoiceType.REACTION == choiceType) {
                     reactionCount++;
                 } else if (TutorialMessageChoiceType.MY_STORY == choiceType) {
@@ -90,6 +96,10 @@ public class TutorialService {
                 } else if (TutorialMessageChoiceType.QUESTION == choiceType) {
                     questionCount++;
                 }
+            }
+
+            if (tutorialSet.size() != request.userChoices().size()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "중복된 선택지를 제출할 수 없습니다.");
             }
 
             UserCardEntity userCardEntity = null;

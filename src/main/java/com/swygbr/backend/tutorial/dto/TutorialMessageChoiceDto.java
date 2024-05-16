@@ -10,7 +10,8 @@ import com.swygbr.backend.tutorial.domain.TutorialMessageChoiceEntity;
 import com.swygbr.backend.tutorial.enums.TutorialMessageChoiceType;
 
 @JsonIgnoreProperties({ "reactionTutorialFk" })
-public record TutorialMessageChoiceDto(TutorialMessageChoiceType choiceType, String content, String reaction) {
+public record TutorialMessageChoiceDto(Long choiceId, TutorialMessageChoiceType choiceType, String content,
+    String reaction) {
   public static TutorialMessageChoiceDto fromEntity(TutorialMessageChoiceEntity entity) {
     if (Objects.isNull(entity)) {
       return null;
@@ -21,6 +22,6 @@ public record TutorialMessageChoiceDto(TutorialMessageChoiceType choiceType, Str
       reaction = linkTo(TutorialController.class).slash(entity.getReaction().getId()).toString();
     }
 
-    return new TutorialMessageChoiceDto(entity.getChoiceType(), entity.getContent(), reaction);
+    return new TutorialMessageChoiceDto(entity.getId(), entity.getChoiceType(), entity.getContent(), reaction);
   }
 }
