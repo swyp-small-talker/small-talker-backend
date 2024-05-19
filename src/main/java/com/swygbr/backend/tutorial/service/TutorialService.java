@@ -21,6 +21,7 @@ import com.swygbr.backend.tutorial.dto.TutorialDto;
 import com.swygbr.backend.tutorial.dto.TutorialStatusDto;
 import com.swygbr.backend.tutorial.enums.TutorialMessageChoiceType;
 import com.swygbr.backend.tutorial.enums.TutorialMessageInputType;
+import com.swygbr.backend.tutorial.enums.TutorialMessageType;
 import com.swygbr.backend.tutorial.enums.TutorialType;
 import com.swygbr.backend.tutorial.enums.UserCardType;
 import com.swygbr.backend.tutorial.repository.TutorialMessageChoiceRepository;
@@ -78,6 +79,13 @@ public class TutorialService {
             int reactionCount = 0;
             int myStoryCount = 0;
             int questionCount = 0;
+
+            // tutorial 선택지 개수가 맞는지 확인
+            long count = tutorialRepository.countMessagesByTypeAndMessageType(TutorialType.USER_CARD,
+                    TutorialMessageType.CHOICE);
+            if (count != request.userChoices().size()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "선택지 개수가 일치하지않습니다.");
+            }
 
             Iterator<Long> iterator = request.userChoices().iterator();
             Set<Long> tutorialSet = new HashSet<>();
