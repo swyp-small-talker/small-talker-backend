@@ -1,5 +1,5 @@
-insert    into Users (email, name)
-values    ('test@gmail.com', 'myname');
+insert    into Users (email, name, profile, role)
+values    ('test@gmail.com', 'myname', 'http://example.com/picture.png', 'ROLE_USER');
 
 insert    into UserCard (picture, title, content)
 values    ('http://example.com/picture.png', '리액션봇', '상대방 말에 공감만 해주다가 정작 내 이야기는 못하고 끝나버리죠.');
