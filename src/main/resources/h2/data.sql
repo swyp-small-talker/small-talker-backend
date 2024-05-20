@@ -31,66 +31,13 @@ INSERT INTO TB_EPISODE_MAIN (
     )
 VALUES ('EP003', 'CH001', 'USER001', '퇴근 후 한 잔', 'N');
 -- TB_EPISODE_DIALOG
-INSERT INTO TB_EPISODE_DIALOG (
-        dialog_id,
-        episode_id,
-        character_id,
-        parent_dialog_id,
-        left_right,
-        user_choose,
-        dialog_detail,
-        correct_answer_yn
-    )
-VALUES (
-        'DLG001',
-        'EP001',
-        'CH001',
-        NULL,
-        '좌',
-        NULL,
-        '안녕하세요, 신입사원?',
-        NULL
-    );
-INSERT INTO TB_EPISODE_DIALOG (
-        dialog_id,
-        episode_id,
-        character_id,
-        parent_dialog_id,
-        left_right,
-        user_choose,
-        dialog_detail,
-        correct_answer_yn
-    )
-VALUES (
-        'DLG002',
-        'EP001',
-        'CH001',
-        'DLG001',
-        '우',
-        '인사를 한다',
-        '네, 안녕하세요! 김부장님!',
-        'Y'
-    );
-INSERT INTO TB_EPISODE_DIALOG (
-        dialog_id,
-        episode_id,
-        character_id,
-        parent_dialog_id,
-        left_right,
-        user_choose,
-        dialog_detail,
-        correct_answer_yn
-    )
-VALUES (
-        'DLG003',
-        'EP001',
-        'CH001',
-        'DLG001',
-        '우',
-        '고개를 끄덕인다',
-        '... (꾸벅)',
-        'N'
-    );
+INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)
+VALUES ('DLG001', 'EP001', 'CH001', NULL, 'L', NULL, '안녕하세요, 신입사원?', NULL);
+INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)
+VALUES ('DLG002', 'EP001', 'CH001', 'DLG001', 'R', '인사를 한다', '네, 안녕하세요! 김부장님!', 'Y');
+INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)
+VALUES ('DLG003', 'EP001', 'CH001', 'DLG001', 'R', '고개를 끄덕인다', '... (꾸벅)', 'N');
+
 -- TB_EPISODE_REWARD
 INSERT INTO TB_EPISODE_REWARD (reward_id, episode_id, character_id, reward_nm)
 VALUES ('RWD001', 'EP001', 'CH001', '김부장의 명함');
