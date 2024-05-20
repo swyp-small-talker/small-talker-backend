@@ -1,20 +1,20 @@
-package com.swygbr.backend.entity;
+package com.swygbr.backend.practice.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-// EpisodeMainPk (복합 기본키 클래스)
 public class EpisodeMainPk implements Serializable {
     private String episodeId;
     private String characterId;
 
-    // 기본 생성자
+    private String userId;
+
     public EpisodeMainPk() {}
 
-    // 모든 필드를 포함하는 생성자
-    public EpisodeMainPk(String episodeId, String characterId) {
+    public EpisodeMainPk(String episodeId, String characterId, String user_id) {
         this.episodeId = episodeId;
         this.characterId = characterId;
+        this.userId = user_id;
     }
 
     @Override
@@ -23,11 +23,12 @@ public class EpisodeMainPk implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         EpisodeMainPk that = (EpisodeMainPk) o;
         return Objects.equals(episodeId, that.episodeId) &&
-                Objects.equals(characterId, that.characterId);
+                Objects.equals(characterId, that.characterId) &&
+                Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(episodeId, characterId);
+        return Objects.hash(episodeId, characterId, userId);
     }
 }

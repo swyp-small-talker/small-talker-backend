@@ -1,16 +1,14 @@
-package com.swygbr.backend.entity;
+package com.swygbr.backend.practice.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-// EpisodeMainPk (복합 기본키 클래스)
 public class EpisodeRewardPk implements Serializable {
     private String rewardId;
     private String episodeId;
 
     private String characterId;
 
-    // 기본 생성자
     public EpisodeRewardPk() {
     }
 

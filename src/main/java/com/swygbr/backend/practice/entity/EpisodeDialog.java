@@ -1,4 +1,4 @@
-package com.swygbr.backend.entity;
+package com.swygbr.backend.practice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -39,10 +39,8 @@ public class EpisodeDialog {
     private String correctAnswerYn;
 
 
-    // 기본 생성자
     public EpisodeDialog() {}
 
-    // 모든 필드를 포함하는 생성자
 
     public EpisodeDialog(String dialogId, String episodeId, String characterId, String parentDialogId, String leftRight, String userChoose, String dialogDetail, String correctAnswerYn) {
         this.dialogId = dialogId;

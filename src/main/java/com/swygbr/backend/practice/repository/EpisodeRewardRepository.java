@@ -1,7 +1,7 @@
-package com.swygbr.backend.repository;
+package com.swygbr.backend.practice.repository;
 
-import com.swygbr.backend.entity.EpisodeReward;
-import com.swygbr.backend.entity.EpisodeRewardPk;
+import com.swygbr.backend.practice.entity.EpisodeReward;
+import com.swygbr.backend.practice.entity.EpisodeRewardPk;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

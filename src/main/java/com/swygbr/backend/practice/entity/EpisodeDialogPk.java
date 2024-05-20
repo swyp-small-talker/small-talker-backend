@@ -1,7 +1,4 @@
-package com.swygbr.backend.entity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
+package com.swygbr.backend.practice.entity;
 
 import java.io.Serializable;
 import java.util.Objects;

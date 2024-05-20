@@ -1,10 +1,9 @@
-package com.swygbr.backend.entity;
+package com.swygbr.backend.practice.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-// TB_CHARACTER_MAIN
 @Entity
 @Table(name = "TB_EPISODE_REWARD")
 @Getter
@@ -26,11 +25,8 @@ public class EpisodeReward {
     @Column(name = "reward_nm")
     private String rewardNm;
 
-    // 기본 생성자
     public EpisodeReward() {
     }
-
-    // 모든 필드를 포함하는 생성자
 
     public EpisodeReward(String rewardId, String episodeId, String characterId, String rewardNm) {
         this.rewardId = rewardId;

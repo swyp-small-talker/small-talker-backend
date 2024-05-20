@@ -1,4 +1,4 @@
-package com.swygbr.backend.entity;
+package com.swygbr.backend.practice.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,16 +23,12 @@ public class CharacterMain {
     @Column(name = "character_type", length = 255)
     private String characterType;
 
-    // 기본 생성자
     public CharacterMain() {}
 
-    // 모든 필드를 포함하는 생성자
     public CharacterMain(String characterId, String characterNm, String characterType) {
         this.characterId = characterId;
         this.characterNm = characterNm;
         this.characterType = characterType;
     }
 
-    // Getter/Setter 메소드
-    // ...
 }

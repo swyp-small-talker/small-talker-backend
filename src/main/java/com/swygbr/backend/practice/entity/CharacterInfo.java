@@ -1,4 +1,4 @@
-package com.swygbr.backend.entity;
+package com.swygbr.backend.practice.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -7,7 +7,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-// TB_CHARACTER_MAIN
 @Entity
 @Table(name = "TB_CHARACTER_INFO")
 @Getter
@@ -23,10 +22,7 @@ public class CharacterInfo {
     @Column(name = "info_category_nm", length = 255)
     private String infoCategoryNm;
 
-    // 기본 생성자
     public CharacterInfo() {}
-
-    // 모든 필드를 포함하는 생성자
 
     public CharacterInfo(String infoId, String characterId, String infoCategoryNm) {
         this.infoId = infoId;

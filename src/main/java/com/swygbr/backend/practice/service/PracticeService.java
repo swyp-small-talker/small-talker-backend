@@ -1,11 +1,12 @@
-package com.swygbr.backend.service;
+package com.swygbr.backend.practice.service;
 
-import com.swygbr.backend.entity.*;
-import com.swygbr.backend.repository.*;
+import com.swygbr.backend.practice.entity.*;
+import com.swygbr.backend.practice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PracticeService {
@@ -22,33 +23,39 @@ public class PracticeService {
     private EpisodeRewardRepository episodeRewardRepository;
 
     // 캐릭터 관련 로직
-    public List<CharacterMain> getAllCharacters() {
+    public List<CharacterMain> getCharacterList() {
         return characterMainRepository.findAll();
     }
-
     public CharacterMain getCharacterById(String characterId) {
         return characterMainRepository.findById(characterId).orElse(null);
     }
-
     public List<CharacterInfo> getCharacterInfos(String characterId) {
         return characterInfoRepository.findByCharacterId(characterId);
+    }
+    public List<Object[]> getCharacterKeywords(String characterId) {
+        return characterInfoRepository.findCharacterInfoWithDetailsByCharacterId(characterId);
     }
 
     // 에피소드 관련 로직
     public List<EpisodeMain> getAllEpisodes() {
         return episodeMainRepository.findAll();
     }
-
     public EpisodeMain getEpisodeById(String episodeId) {
-        return episodeMainRepository.findById(new EpisodeMainPk(episodeId, "CH001")).orElse(null); // 예시: 첫 번째 캐릭터의 에피소드로 조회
+        return episodeMainRepository.findById(
+                new EpisodeMainPk(episodeId, "CH001", "USER001")).orElse(null);
+    }
+    public List<EpisodeMain> getEpisodesByCharacterId(String characterId) {
+        return episodeMainRepository.findByCharacterId(characterId);
     }
 
-    public List<EpisodeDialog> getEpisodeDialogs(String episodeId) {
-        return episodeDialogRepository.findByEpisodeId(episodeId);
+    public Optional<EpisodeDialog> findInitialDialogByEpisodeId(String episodeId) {
+        return episodeDialogRepository.findByEpisodeIdAndParentDialogIdIsNull(episodeId);
     }
 
-    public List<EpisodeReward> getEpisodeRewards(String episodeId) {
-        return episodeRewardRepository.findByEpisodeId(episodeId);
+    public List<EpisodeDialog> findChildrenByParentDialogId(String chatId) {
+        return episodeDialogRepository.findChildrenByParentDialogId(chatId);
     }
+
 
 }
+
