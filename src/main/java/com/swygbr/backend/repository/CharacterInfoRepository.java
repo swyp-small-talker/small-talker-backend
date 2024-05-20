@@ -1,6 +1,6 @@
 package com.swygbr.backend.repository;
 
-import com.swygbr.backend.entity.CharacterInfo;
+import com.swygbr.backend.practice.entity.CharacterInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
