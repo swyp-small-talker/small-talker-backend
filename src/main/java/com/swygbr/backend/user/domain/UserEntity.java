@@ -57,4 +57,8 @@ public class UserEntity {
         this.name = name;
         this.completeProfileTypeTutorial = true;
     }
+
+    public boolean completeTalk() {
+        return true;
+    }
 }

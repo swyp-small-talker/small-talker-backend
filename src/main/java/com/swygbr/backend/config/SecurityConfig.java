@@ -14,24 +14,24 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-        @Bean
-        @Profile("local")
-        public WebSecurityCustomizer localConfig() {
-                return (web) -> web.ignoring().requestMatchers(PathRequest.toH2Console())
-                                .requestMatchers("/tutorial/**")
-                                .requestMatchers("/user-card/**");
-        }
+    @Bean
+    @Profile("local")
+    public WebSecurityCustomizer localConfig() {
+        return (web) -> web.ignoring().requestMatchers(PathRequest.toH2Console())
+            .requestMatchers("/tutorial/**")
+            .requestMatchers("/user-card/**");
+    }
 
-        @Bean
-        @Profile("prod")
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                http
-                                .authorizeHttpRequests(authorize -> authorize
-                                                .requestMatchers("/user-card/**").permitAll()
-                                                .requestMatchers("/tutorial/**").authenticated()
-                                                .anyRequest().authenticated())
-                                .formLogin(withDefaults())
-                                .httpBasic(withDefaults());
-                return http.build();
-        }
+    @Bean
+    @Profile("prod")
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/user-card/**").permitAll()
+                .requestMatchers("/tutorial/**").authenticated()
+                .anyRequest().authenticated())
+            .formLogin(withDefaults())
+            .httpBasic(withDefaults());
+        return http.build();
+    }
 }
