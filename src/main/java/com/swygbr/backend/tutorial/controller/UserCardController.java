@@ -18,7 +18,7 @@ public class UserCardController {
     private UserCardService userCardService;
 
     @PostMapping("/small-talker")
-    public ResponseEntity<?> getSmallTalker() {
+    public ResponseEntity<?> setSmallTalker() {
         if (userCardService.setSmallTalker()) {
             return ResponseEntity.ok().build();
         } else {
