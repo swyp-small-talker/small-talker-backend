@@ -5,16 +5,14 @@ import java.util.Objects;
 
 public class EpisodeMainPk implements Serializable {
     private String episodeId;
-    private String characterId;
 
     private String userId;
 
     public EpisodeMainPk() {}
 
-    public EpisodeMainPk(String episodeId, String characterId, String user_id) {
+    public EpisodeMainPk(String episodeId, String userId) {
         this.episodeId = episodeId;
-        this.characterId = characterId;
-        this.userId = user_id;
+        this.userId = userId;
     }
 
     @Override
@@ -23,12 +21,11 @@ public class EpisodeMainPk implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         EpisodeMainPk that = (EpisodeMainPk) o;
         return Objects.equals(episodeId, that.episodeId) &&
-                Objects.equals(characterId, that.characterId) &&
                 Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(episodeId, characterId, userId);
+        return Objects.hash(episodeId, userId);
     }
 }

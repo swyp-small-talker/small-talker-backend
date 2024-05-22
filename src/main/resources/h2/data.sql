@@ -32,7 +32,9 @@ INSERT INTO TB_EPISODE_MAIN (
 VALUES ('EP003', 'CH001', 'USER001', '퇴근 후 한 잔', 'N');
 -- TB_EPISODE_DIALOG
 INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)
-VALUES ('DLG001', 'EP001', 'CH001', NULL, 'L', NULL, '안녕하세요, 신입사원?', NULL);
+VALUES ('DLG000', 'EP000', 'CH000', NULL, NULL, NULL, '최상위대화', NULL);
+INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)
+VALUES ('DLG001', 'EP001', 'CH001', 'DLG000', 'L', NULL, '안녕하세요, 신입사원?', NULL);
 INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)
 VALUES ('DLG002', 'EP001', 'CH001', 'DLG001', 'R', '인사를 한다', '네, 안녕하세요! 김부장님!', 'Y');
 INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)

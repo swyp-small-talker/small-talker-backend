@@ -45,12 +45,11 @@ public class PracticeService {
     }
 
     public EpisodeMain getEpisodeById(String episodeId) {
-        return episodeMainRepository.findById(
-                new EpisodeMainPk(episodeId, "CH001", "USER001")).orElse(null);
+        return episodeMainRepository.findByEpisodeId(episodeId).orElse(null);
     }
 
-    public List<EpisodeMain> getEpisodesByCharacterId(String characterId) {
-        return episodeMainRepository.findByCharacterId(characterId);
+    public List<EpisodeMain> getEpisodesByCharacterId(String characterId, String userId) {
+        return episodeMainRepository.findByCharacterIdAndUserId(characterId, userId);
     }
 
     public Optional<EpisodeDialog> findInitialDialogByEpisodeId(String episodeId) {

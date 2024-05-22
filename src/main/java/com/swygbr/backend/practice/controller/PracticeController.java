@@ -1,9 +1,12 @@
 package com.swygbr.backend.practice.controller;
 
 import com.swygbr.backend.practice.entity.CharacterMain;
+import com.swygbr.backend.practice.entity.EpisodeDialog;
 import com.swygbr.backend.practice.entity.EpisodeMain;
 import com.swygbr.backend.practice.service.PracticeService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,12 +52,15 @@ public class PracticeController {
 
     // 대화 연습 캐릭터의 에피소드 목록 및 완료 여부 조회
     @GetMapping("/character/{characterId}/episode")
-    public ResponseEntity<?> getCharacterEpisodes(@PathVariable String characterId) {
-        List<EpisodeMain> episodeList = practiceService.getEpisodesByCharacterId(characterId);
+    public ResponseEntity<?> getCharacterEpisodes(@PathVariable String characterId, HttpSession httpSession) {
+        String userId = (String) httpSession.getAttribute("userId");
+        if(userId == null) {
+            userId = "USER001";
+        } // 세션에서 유저id 필요함
+        List<EpisodeMain> episodeList = practiceService.getEpisodesByCharacterId(characterId, userId);
         if (episodeList.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        //TODO: 유저 아이디
         return ResponseEntity.ok(episodeList);
     }
 
@@ -92,7 +98,8 @@ public class PracticeController {
     // 대화 연습 채팅 조회
     @GetMapping("/chat/{chatId}")
     public ResponseEntity<?> getChat(@PathVariable String chatId) {
-        return ResponseEntity.ok(practiceService.findChildrenByParentDialogId(chatId));
+        List<EpisodeDialog> episodeDialogList = practiceService.findChildrenByParentDialogId(chatId);
+        return episodeDialogList.isEmpty() ? ResponseEntity.ok(new HashMap<>(Map.of("last", true))) : ResponseEntity.ok(episodeDialogList);
     }
 
     // 대화 연습 채팅 선택지 제출

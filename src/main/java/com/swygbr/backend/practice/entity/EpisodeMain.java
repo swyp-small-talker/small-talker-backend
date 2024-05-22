@@ -16,12 +16,11 @@ public class EpisodeMain {
     private String episodeId;
 
     @Id
-    @Column(name = "character_id", length = 255)
-    private String characterId;
-
-    @Id
     @Column(name = "user_id")
     private String userId;
+
+    @Column(name = "character_id", length = 255)
+    private String characterId;
 
     @Column(name = "episode_title", length = 255)
     private String episodeTitle;
