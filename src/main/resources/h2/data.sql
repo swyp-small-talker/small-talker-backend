@@ -13,7 +13,7 @@ INSERT INTO TB_EPISODE_MAIN (
         episode_title,
         episode_complete_yn
     )
-VALUES ('EP001', 'CH001', 'USER001', '첫 출근', 'N');
+VALUES ('EP001', 'CH001', 1, '첫 출근', 'N');
 INSERT INTO TB_EPISODE_MAIN (
         episode_id,
         character_id,
@@ -21,7 +21,7 @@ INSERT INTO TB_EPISODE_MAIN (
         episode_title,
         episode_complete_yn
     )
-VALUES ('EP002', 'CH001', 'USER001', '점심 메뉴 고르기', 'N');
+VALUES ('EP002', 'CH001', 1, '점심 메뉴 고르기', 'N');
 INSERT INTO TB_EPISODE_MAIN (
         episode_id,
         character_id,
@@ -29,17 +29,88 @@ INSERT INTO TB_EPISODE_MAIN (
         episode_title,
         episode_complete_yn
     )
-VALUES ('EP003', 'CH001', 'USER001', '퇴근 후 한 잔', 'N');
+VALUES ('EP003', 'CH001', 1, '퇴근 후 한 잔', 'N');
 -- TB_EPISODE_DIALOG
-INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)
-VALUES ('DLG000', 'EP000', 'CH000', NULL, NULL, NULL, '최상위대화', NULL);
-INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)
-VALUES ('DLG001', 'EP001', 'CH001', 'DLG000', 'L', NULL, '안녕하세요, 신입사원?', NULL);
-INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)
-VALUES ('DLG002', 'EP001', 'CH001', 'DLG001', 'R', '인사를 한다', '네, 안녕하세요! 김부장님!', 'Y');
-INSERT INTO TB_EPISODE_DIALOG (dialog_id, episode_id, character_id, parent_dialog_id, left_right, user_choose, dialog_detail, correct_answer_yn)
-VALUES ('DLG003', 'EP001', 'CH001', 'DLG001', 'R', '고개를 끄덕인다', '... (꾸벅)', 'N');
-
+INSERT INTO TB_EPISODE_DIALOG (
+        dialog_id,
+        episode_id,
+        character_id,
+        parent_dialog_id,
+        left_right,
+        user_choose,
+        dialog_detail,
+        correct_answer_yn
+    )
+VALUES (
+        'DLG000',
+        'EP000',
+        'CH000',
+        NULL,
+        NULL,
+        NULL,
+        '최상위대화',
+        NULL
+    );
+INSERT INTO TB_EPISODE_DIALOG (
+        dialog_id,
+        episode_id,
+        character_id,
+        parent_dialog_id,
+        left_right,
+        user_choose,
+        dialog_detail,
+        correct_answer_yn
+    )
+VALUES (
+        'DLG001',
+        'EP001',
+        'CH001',
+        'DLG000',
+        'L',
+        NULL,
+        '안녕하세요, 신입사원?',
+        NULL
+    );
+INSERT INTO TB_EPISODE_DIALOG (
+        dialog_id,
+        episode_id,
+        character_id,
+        parent_dialog_id,
+        left_right,
+        user_choose,
+        dialog_detail,
+        correct_answer_yn
+    )
+VALUES (
+        'DLG002',
+        'EP001',
+        'CH001',
+        'DLG001',
+        'R',
+        '인사를 한다',
+        '네, 안녕하세요! 김부장님!',
+        'Y'
+    );
+INSERT INTO TB_EPISODE_DIALOG (
+        dialog_id,
+        episode_id,
+        character_id,
+        parent_dialog_id,
+        left_right,
+        user_choose,
+        dialog_detail,
+        correct_answer_yn
+    )
+VALUES (
+        'DLG003',
+        'EP001',
+        'CH001',
+        'DLG001',
+        'R',
+        '고개를 끄덕인다',
+        '... (꾸벅)',
+        'N'
+    );
 -- TB_EPISODE_REWARD
 INSERT INTO TB_EPISODE_REWARD (reward_id, episode_id, character_id, reward_nm)
 VALUES ('RWD001', 'EP001', 'CH001', '김부장의 명함');

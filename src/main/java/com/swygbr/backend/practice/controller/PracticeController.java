@@ -53,9 +53,9 @@ public class PracticeController {
     // 대화 연습 캐릭터의 에피소드 목록 및 완료 여부 조회
     @GetMapping("/character/{characterId}/episode")
     public ResponseEntity<?> getCharacterEpisodes(@PathVariable String characterId, HttpSession httpSession) {
-        String userId = (String) httpSession.getAttribute("userId");
-        if(userId == null) {
-            userId = "USER001";
+        Long userId = (Long) httpSession.getAttribute("id");
+        if(userId == 0) {
+            userId = 1L; // 테스트용 코드로 세션값이 없으면 셋팅된 정보를 불러옴
         } // 세션에서 유저id 필요함
         List<EpisodeMain> episodeList = practiceService.getEpisodesByCharacterId(characterId, userId);
         if (episodeList.isEmpty()) {

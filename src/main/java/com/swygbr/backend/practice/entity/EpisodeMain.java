@@ -17,7 +17,7 @@ public class EpisodeMain {
 
     @Id
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
     @Column(name = "character_id", length = 255)
     private String characterId;
@@ -31,7 +31,7 @@ public class EpisodeMain {
     public EpisodeMain() {
     }
 
-    public EpisodeMain(String episodeId, String characterId, String userId, String episodeTitle, String episodeCompleteYn) {
+    public EpisodeMain(String episodeId, String characterId, Long userId, String episodeTitle, String episodeCompleteYn) {
         this.episodeId = episodeId;
         this.characterId = characterId;
         this.userId = userId;

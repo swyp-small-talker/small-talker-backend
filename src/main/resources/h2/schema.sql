@@ -64,7 +64,7 @@ CREATE TABLE `TB_EPISODE_MAIN`
 (
     `episode_id`          VARCHAR(255) NULL,
     `character_id`        VARCHAR(255) NULL,
-    `user_id`             VARCHAR(255) NULL,
+    `user_id`             BIGINT,
     `episode_title`       VARCHAR(255) NULL,
     `episode_complete_yn` VARCHAR(255) NULL
 );

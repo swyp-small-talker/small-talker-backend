@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface EpisodeMainRepository extends JpaRepository<EpisodeMain, EpisodeMainPk> {
 
-    List<EpisodeMain> findByCharacterIdAndUserId(String characterId, String userId);
+    List<EpisodeMain> findByCharacterIdAndUserId(String characterId, Long userId);
 
     Optional<EpisodeMain> findByEpisodeId(String episodeId);
 }
