@@ -1,22 +1,23 @@
 package com.swygbr.backend.practice.controller;
 
-import com.swygbr.backend.practice.entity.CharacterMain;
-import com.swygbr.backend.practice.entity.EpisodeDialog;
-import com.swygbr.backend.practice.entity.EpisodeMain;
-import com.swygbr.backend.practice.service.PracticeService;
-import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.swygbr.backend.practice.entity.CharacterMain;
+import com.swygbr.backend.practice.entity.EpisodeDialog;
+import com.swygbr.backend.practice.entity.EpisodeMain;
+import com.swygbr.backend.practice.service.PracticeService;
+
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/practice")
@@ -54,7 +55,7 @@ public class PracticeController {
     @GetMapping("/character/{characterId}/episode")
     public ResponseEntity<?> getCharacterEpisodes(@PathVariable String characterId, HttpSession httpSession) {
         Long userId = (Long) httpSession.getAttribute("id");
-        if(userId == 0) {
+        if (userId == 0) {
             userId = 1L; // 테스트용 코드로 세션값이 없으면 셋팅된 정보를 불러옴
         } // 세션에서 유저id 필요함
         List<EpisodeMain> episodeList = practiceService.getEpisodesByCharacterId(characterId, userId);
@@ -99,7 +100,8 @@ public class PracticeController {
     @GetMapping("/chat/{chatId}")
     public ResponseEntity<?> getChat(@PathVariable String chatId) {
         List<EpisodeDialog> episodeDialogList = practiceService.findChildrenByParentDialogId(chatId);
-        return episodeDialogList.isEmpty() ? ResponseEntity.ok(new HashMap<>(Map.of("last", true))) : ResponseEntity.ok(episodeDialogList);
+        return episodeDialogList.isEmpty() ? ResponseEntity.ok(new HashMap<>(Map.of("last", true)))
+                : ResponseEntity.ok(episodeDialogList);
     }
 
     // 대화 연습 채팅 선택지 제출
@@ -123,6 +125,3 @@ public class PracticeController {
         return ResponseEntity.ok("대화 키워드 조회");
     }
 }
-
-
-

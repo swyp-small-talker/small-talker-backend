@@ -6,19 +6,22 @@ import java.util.Objects;
 public class EpisodeMainPk implements Serializable {
     private String episodeId;
 
-    private String userId;
+    private Long userId;
 
-    public EpisodeMainPk() {}
+    public EpisodeMainPk() {
+    }
 
-    public EpisodeMainPk(String episodeId, String userId) {
+    public EpisodeMainPk(String episodeId, Long userId) {
         this.episodeId = episodeId;
         this.userId = userId;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         EpisodeMainPk that = (EpisodeMainPk) o;
         return Objects.equals(episodeId, that.episodeId) &&
                 Objects.equals(userId, that.userId);
