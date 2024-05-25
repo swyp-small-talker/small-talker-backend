@@ -1,0 +1,6 @@
+2024-05-14 16:37:46.659020+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER_CARD" already exists; SQL statement:
+CREATE TABLE `user_card` ( `id` int PRIMARY KEY AUTO_INCREMENT, `picture` varchar(255) NOT NULL, `title` varchar(255) NOT NULL, `content` varchar(255) NOT NULL, `createdAt` timestamp NOT NULL DEFAULT now(), `updatedAt` timestamp ) [42101-224]
+2024-05-14 16:38:15.918388+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USER_CARD" already exists; SQL statement:
+CREATE TABLE `user_card` ( `id` int PRIMARY KEY AUTO_INCREMENT, `picture` varchar(255) NOT NULL, `title` varchar(255) NOT NULL, `content` varchar(255) NOT NULL, `createdAt` timestamp NOT NULL DEFAULT now(), `updatedAt` timestamp ) [42101-224]
