@@ -1,7 +1,8 @@
 package com.swygbr.backend.practice.repository;
 
 import com.swygbr.backend.practice.entity.EpisodeMain;
-import com.swygbr.backend.practice.entity.EpisodeMainPk;
+import com.swygbr.backend.practice.idclass.EpisodeMainPk;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

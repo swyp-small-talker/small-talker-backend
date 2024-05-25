@@ -1,7 +1,8 @@
 package com.swygbr.backend.practice.repository;
 
 import com.swygbr.backend.practice.entity.EpisodeDialog;
-import com.swygbr.backend.practice.entity.EpisodeDialogPk;
+import com.swygbr.backend.practice.idclass.EpisodeDialogPk;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -1,13 +1,20 @@
 package com.swygbr.backend.practice.service;
 
-import com.swygbr.backend.practice.entity.*;
-import com.swygbr.backend.practice.repository.*;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import com.swygbr.backend.practice.entity.CharacterInfo;
+import com.swygbr.backend.practice.entity.CharacterMain;
+import com.swygbr.backend.practice.entity.EpisodeDialog;
+import com.swygbr.backend.practice.entity.EpisodeMain;
+import com.swygbr.backend.practice.repository.CharacterInfoRepository;
+import com.swygbr.backend.practice.repository.CharacterMainRepository;
+import com.swygbr.backend.practice.repository.EpisodeDialogRepository;
+import com.swygbr.backend.practice.repository.EpisodeMainRepository;
+import com.swygbr.backend.practice.repository.EpisodeRewardRepository;
 
 @Service
 public class PracticeService {

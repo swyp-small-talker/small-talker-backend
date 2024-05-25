@@ -1,5 +1,7 @@
 package com.swygbr.backend.practice.entity;
 
+import com.swygbr.backend.practice.idclass.EpisodeMainPk;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
