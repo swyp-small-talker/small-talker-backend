@@ -75,6 +75,7 @@ public class UserEntity {
     }
 
     public boolean completeTalk() {
+        // TODO: 에피소드 조회해서 완려여부 확인
         return true;
     }
 }

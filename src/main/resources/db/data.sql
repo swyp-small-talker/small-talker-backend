@@ -43,8 +43,8 @@ INSERT INTO TB_EPISODE_DIALOG (
     )
 VALUES (
         'DLG000',
-        'EP000',
-        'CH000',
+        'EP001',
+        'CH001',
         NULL,
         NULL,
         NULL,
@@ -134,8 +134,14 @@ INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
 VALUES ('DETAIL003', 'INFO002', '골프');
 INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
 VALUES ('DETAIL004', 'INFO003', '등산');
-INSERT INTO Users (email, name)
-VALUES ('test@gmail.com', 'myname');
+INSERT INTO Users (id, email, name, profile, role)
+VALUES (
+        1,
+        'master@gmail.com',
+        'master',
+        'http://example.com/picture.png',
+        'ROLE_USER'
+    );
 INSERT INTO UserCard (picture, title, content)
 VALUES (
         'http://example.com/picture.png',

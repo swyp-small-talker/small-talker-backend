@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.crypto.SecretKey;
 
-import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 import com.swygbr.backend.login.property.JwtProperty;

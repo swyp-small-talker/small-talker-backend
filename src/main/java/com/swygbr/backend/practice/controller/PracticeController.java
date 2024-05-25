@@ -6,18 +6,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.swygbr.backend.login.auth.JwtUserPrincipal;
 import com.swygbr.backend.practice.entity.CharacterMain;
 import com.swygbr.backend.practice.entity.EpisodeDialog;
 import com.swygbr.backend.practice.entity.EpisodeMain;
 import com.swygbr.backend.practice.service.PracticeService;
-
-import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/practice")
@@ -53,12 +55,10 @@ public class PracticeController {
 
     // 대화 연습 캐릭터의 에피소드 목록 및 완료 여부 조회
     @GetMapping("/character/{characterId}/episode")
-    public ResponseEntity<?> getCharacterEpisodes(@PathVariable String characterId, HttpSession httpSession) {
-        Long userId = (Long) httpSession.getAttribute("id");
-        if (userId == 0) {
-            userId = 1L; // 테스트용 코드로 세션값이 없으면 셋팅된 정보를 불러옴
-        } // 세션에서 유저id 필요함
-        List<EpisodeMain> episodeList = practiceService.getEpisodesByCharacterId(characterId, userId);
+    public ResponseEntity<?> getCharacterEpisodes(@PathVariable String characterId,
+            @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
+        List<EpisodeMain> episodeList = practiceService.getEpisodesByCharacterId(characterId,
+                userPrincipal.getUserId());
         if (episodeList.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -71,6 +71,9 @@ public class PracticeController {
         List<Object[]> results = practiceService.getCharacterKeywords(characterId);
         List<Map<String, Object>> characterKeywords = new ArrayList<>();
 
+        if (results.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         for (Object[] result : results) {
             Map<String, Object> characterKeyword = new HashMap<>();
             characterKeyword.put("infoId", result[0]);
@@ -93,7 +96,9 @@ public class PracticeController {
     // 대화 연습 에피소드의 채팅 시작
     @GetMapping("/episode/{episodeId}/chat")
     public ResponseEntity<?> startEpisodeChat(@PathVariable String episodeId) {
-        return ResponseEntity.ok(practiceService.findInitialDialogByEpisodeId(episodeId));
+        EpisodeDialog dialog = practiceService.findInitialDialogByEpisodeId(episodeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "채팅을 찾을 수 없습니다."));
+        return ResponseEntity.ok(dialog);
     }
 
     // 대화 연습 채팅 조회

@@ -1,4 +1,4 @@
-package com.swygbr.backend.practice.entity;
+package com.swygbr.backend.practice.idclass;
 
 import java.io.Serializable;
 import java.util.Objects;
