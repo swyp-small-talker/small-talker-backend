@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +15,8 @@ import com.swygbr.backend.login.auth.JwtUserPrincipal;
 import com.swygbr.backend.practice.dto.CharacterKeywordResponseDto;
 import com.swygbr.backend.practice.dto.CharacterResponseDto;
 import com.swygbr.backend.practice.dto.CharacterSkillResponseDto;
+import com.swygbr.backend.practice.dto.EpisodeCompleteRequestDto;
+import com.swygbr.backend.practice.dto.EpisodeCompleteResponseDto;
 import com.swygbr.backend.practice.dto.EpisodeResponseDto;
 import com.swygbr.backend.practice.dto.MessageResponseDto;
 import com.swygbr.backend.practice.service.PracticeService;
@@ -73,10 +77,15 @@ public class PracticeController {
         return ResponseEntity.ok(dto);
     }
 
-    // 대화 연습 에피소드 조회
-    @GetMapping("/episode/{episodeId}")
-    public ResponseEntity<EntityModel<EpisodeResponseDto>> getEpisode(@PathVariable String episodeId) {
-        EntityModel<EpisodeResponseDto> dto = practiceService.getEpisode(episodeId);
+    // 대화 연습 에피소드 완료 제출
+    @PostMapping("/episode/{episodeId}/complete")
+    public ResponseEntity<EntityModel<EpisodeCompleteResponseDto>> postEpisodeComplete(@PathVariable String episodeId,
+            @RequestBody EpisodeCompleteRequestDto request,
+            @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
+
+        EntityModel<EpisodeCompleteResponseDto> dto = practiceService.postEpisodeComplete(episodeId,
+                userPrincipal.getUserId(), request);
+
         return ResponseEntity.ok(dto);
     }
 

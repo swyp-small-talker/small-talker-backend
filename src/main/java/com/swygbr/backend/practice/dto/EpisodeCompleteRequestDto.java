@@ -1,5 +1,5 @@
 package com.swygbr.backend.practice.dto;
 
-public record EpisodeCompleteRequestDto() {
+public record EpisodeCompleteRequestDto(String lastMessageId) {
 
 }

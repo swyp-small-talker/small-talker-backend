@@ -9,7 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "PracticeEpisodeComplete")
 public class PracticeEpisodeComplete {
@@ -24,4 +26,10 @@ public class PracticeEpisodeComplete {
     @ManyToOne
     @JoinColumn(name = "episodeFk")
     private PracticeEpisode episode;
+
+    public PracticeEpisodeComplete(UserEntity user, PracticeEpisode episode) {
+        this.user = user;
+        this.episode = episode;
+    }
+
 }
