@@ -56,7 +56,7 @@ CREATE TABLE TutorialMessageChoice(
 CREATE TABLE PracticeCharacter (
     id VARCHAR(255) NOT NULL,
     name VARCHAR(100),
-    TYPE VARCHAR(255),
+    characterType VARCHAR(255),
     PRIMARY KEY (id)
 );
 CREATE TABLE PracticeEpisode (
@@ -82,6 +82,13 @@ CREATE TABLE PracticeKeyword (
     PRIMARY KEY (id),
     FOREIGN KEY (episodeFk) REFERENCES PracticeEpisode(id)
 );
+CREATE TABLE PracticeSkill (
+    id VARCHAR(255) NOT NULL,
+    title VARCHAR(255),
+    episodeFk VARCHAR(255),
+    PRIMARY KEY (id),
+    FOREIGN KEY (episodeFk) REFERENCES PracticeEpisode(id)
+);
 CREATE TABLE PracticeMessage (
     id VARCHAR(255) NOT NULL,
     actor VARCHAR(255),
@@ -93,11 +100,4 @@ CREATE TABLE PracticeMessage (
     PRIMARY KEY (id),
     FOREIGN KEY (episodeFk) REFERENCES PracticeEpisode(id),
     FOREIGN KEY (parentFk) REFERENCES PracticeMessage(id)
-);
-CREATE TABLE PracticeSkill (
-    id VARCHAR(255) NOT NULL,
-    title VARCHAR(255),
-    episodeFk VARCHAR(255),
-    PRIMARY KEY (id),
-    FOREIGN KEY (episodeFk) REFERENCES PracticeEpisode(id)
 );

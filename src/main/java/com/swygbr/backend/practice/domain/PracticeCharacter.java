@@ -7,7 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "PracticeCharacter")
 public class PracticeCharacter {
@@ -19,7 +21,7 @@ public class PracticeCharacter {
     private String name;
 
     @Column(length = 255)
-    private String type;
+    private String characterType;
 
     @OneToMany(mappedBy = "character")
     private List<PracticeEpisode> episodeList;
