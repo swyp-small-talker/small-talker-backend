@@ -129,8 +129,11 @@ public class PracticeService {
     }
 
     public EntityModel<MessageResponseDto> getMessage(String messageId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMessage'");
+        PracticeMessage message = messageRepository.findById(messageId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "메시지를 찾을 수 없습니다."));
+        EntityModel<MessageResponseDto> model = MessageResponseDto.fromEntity(message);
+
+        return model;
     }
 
 }

@@ -26,9 +26,6 @@ public class PracticeMessage {
     private String messageType;
 
     @Column(length = 255)
-    private String correct;
-
-    @Column(length = 255)
     private String content;
 
     @ManyToOne

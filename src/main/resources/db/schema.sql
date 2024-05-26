@@ -93,7 +93,6 @@ CREATE TABLE PracticeMessage (
     id VARCHAR(255) NOT NULL,
     actor VARCHAR(255),
     messageType VARCHAR(255),
-    correct VARCHAR(255),
     content VARCHAR(255),
     episodeFk VARCHAR(255),
     parentFk VARCHAR(255),
