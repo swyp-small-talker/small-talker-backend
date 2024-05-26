@@ -453,4 +453,40 @@ VALUES (
         '부장'
     );
 INSERT INTO PracticeEpisode(id, title, characterFk)
-VALUES('CH001_EP001', 'Episode 1', 'CH001');
+VALUES('EP001', 'Episode 1', 'CH001');
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        correct,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG001',
+        'CHARACTER',
+        'TEXT',
+        NULL,
+        'first message',
+        'EP001',
+        NULL
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        correct,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG002',
+        'CHARACTER',
+        'TEXT',
+        NULL,
+        'second message',
+        'EP001',
+        'MG001'
+    );

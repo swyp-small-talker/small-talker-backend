@@ -48,8 +48,11 @@ public class PracticeController {
 
     // 대화 연습 캐릭터의 에피소드 목록 조회
     @GetMapping("/character/{characterId}/episode")
-    public ResponseEntity<List<EntityModel<EpisodeResponseDto>>> getCharacterEpisode(@PathVariable String characterId) {
-        List<EntityModel<EpisodeResponseDto>> dtoList = practiceService.getCharacterEpisode(characterId);
+    public ResponseEntity<List<EntityModel<EpisodeResponseDto>>> getCharacterEpisode(@PathVariable String characterId,
+            @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
+
+        List<EntityModel<EpisodeResponseDto>> dtoList = practiceService.getCharacterEpisode(characterId,
+                userPrincipal.getUserId());
         return ResponseEntity.ok(dtoList);
     }
 

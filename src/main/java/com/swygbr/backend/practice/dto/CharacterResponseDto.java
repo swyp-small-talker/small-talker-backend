@@ -17,7 +17,8 @@ public record CharacterResponseDto(String characterId, String name, String type,
                                 complete);
                 EntityModel<CharacterResponseDto> model = EntityModel.of(dto);
 
-                Link episodeLink = linkTo(methodOn(PracticeController.class).getCharacterEpisode(dto.characterId()))
+                Link episodeLink = linkTo(
+                                methodOn(PracticeController.class).getCharacterEpisode(dto.characterId(), null))
                                 .withRel("episode");
                 model.add(episodeLink);
                 Link keywordLink = linkTo(
