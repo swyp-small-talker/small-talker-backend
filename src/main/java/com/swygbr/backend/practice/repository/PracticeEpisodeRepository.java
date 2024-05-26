@@ -13,9 +13,11 @@ import com.swygbr.backend.practice.domain.PracticeEpisode;
 public interface PracticeEpisodeRepository extends JpaRepository<PracticeEpisode, String> {
     List<PracticeEpisode> findByCharacter_Id(String characterId);
 
-    @Query("SELECT CASE WHEN COUNT(ec) > 0 THEN TRUE ELSE FALSE END " +
-            "FROM PracticeEpisodeComplete ec " +
-            "WHERE ec.episode.id = :episodeId AND ec.user.id = :userId")
+    @Query("""
+            SELECT CASE WHEN COUNT(ec) > 0 THEN TRUE ELSE FALSE END
+            FROM PracticeEpisodeComplete ec
+            WHERE ec.episode.id=:episodeId AND ec.user.id=:userId
+            """)
     boolean isEpisodeCompleted(@Param("episodeId") String episodeId, @Param("userId") Long userId);
 
 }

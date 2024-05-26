@@ -28,4 +28,7 @@ public class PracticeEpisode {
 
     @OneToMany(mappedBy = "episode")
     private List<PracticeEpisodeComplete> complete;
+
+    @OneToMany(mappedBy = "episode")
+    private List<PracticeKeyword> keywords;
 }

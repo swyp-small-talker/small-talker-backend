@@ -12,14 +12,16 @@ import com.swygbr.backend.practice.domain.PracticeEpisode;
 public record EpisodeResponseDto(String id, String title, boolean complete) {
 
     public static EntityModel<EpisodeResponseDto> fromEntity(PracticeEpisode entity, boolean complete,
-            String startMessageId) {
+            String startMessageId, String characterId) {
         EpisodeResponseDto dto = new EpisodeResponseDto(entity.getId(), entity.getTitle(), complete);
 
         EntityModel<EpisodeResponseDto> model = EntityModel.of(dto);
 
-        Link start = linkTo(methodOn(PracticeController.class).getMessage(startMessageId))
+        Link startLink = linkTo(methodOn(PracticeController.class).getMessage(startMessageId))
                 .withRel("start");
-        model.add(start);
+        Link keywordLink = linkTo(methodOn(PracticeController.class).getCharacterKeywords(characterId, null))
+                .withRel("keyword");
+        model.add(startLink, keywordLink);
 
         return model;
     }

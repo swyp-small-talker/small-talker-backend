@@ -2,6 +2,7 @@ package com.swygbr.backend.practice.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -10,8 +11,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.swygbr.backend.practice.domain.PracticeCharacter;
 import com.swygbr.backend.practice.domain.PracticeEpisode;
+import com.swygbr.backend.practice.domain.PracticeKeyword;
 import com.swygbr.backend.practice.domain.PracticeMessage;
-import com.swygbr.backend.practice.dto.AcquireKeywordResponseDto;
+import com.swygbr.backend.practice.dto.CharacterKeywordResponseDto;
 import com.swygbr.backend.practice.dto.CharacterResponseDto;
 import com.swygbr.backend.practice.dto.EpisodeCompleteRequestDto;
 import com.swygbr.backend.practice.dto.EpisodeCompleteResponseDto;
@@ -20,6 +22,7 @@ import com.swygbr.backend.practice.dto.MessageResponseDto;
 import com.swygbr.backend.practice.repository.PracticeCharacterRepository;
 import com.swygbr.backend.practice.repository.PracticeEpisodeCompleteRepository;
 import com.swygbr.backend.practice.repository.PracticeEpisodeRepository;
+import com.swygbr.backend.practice.repository.PracticeKeywordRepository;
 import com.swygbr.backend.practice.repository.PracticeMessageRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +33,7 @@ public class PracticeService {
     private final PracticeCharacterRepository characterRepository;
     private final PracticeEpisodeRepository episodeRepository;
     private final PracticeMessageRepository messageRepository;
-    private final PracticeEpisodeCompleteRepository episodeCompleteRepository;
+    private final PracticeKeywordRepository keywordRepository;
 
     public List<EntityModel<CharacterResponseDto>> getCharacterList(Long userId) {
         List<PracticeCharacter> entities = characterRepository.findAll();
@@ -69,9 +72,14 @@ public class PracticeService {
         return result;
     }
 
-    public EntityModel<AcquireKeywordResponseDto> getAquireKeywords(String characterId, Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAquireKeywords'");
+    public EntityModel<CharacterKeywordResponseDto> getCharacterKeywords(String characterId, Long userId) {
+        int totalKeywordCount = keywordRepository.countTotalKeywordsByCharacterId(characterId);
+        List<PracticeKeyword> keywords = keywordRepository.findAcquiredKeywordsByUserIdAndCharacterId(userId,
+                characterId);
+        int acquireKeywordCount = keywords.size();
+        EntityModel<CharacterKeywordResponseDto> model = CharacterKeywordResponseDto.fromEntities(characterId,
+                totalKeywordCount, acquireKeywordCount, keywords);
+        return model;
     }
 
     public EntityModel<EpisodeResponseDto> getEpisode(String episodeId) {

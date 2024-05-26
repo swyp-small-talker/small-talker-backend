@@ -22,8 +22,8 @@ public record CharacterResponseDto(String characterId, String name, String type,
                                 .withRel("episode");
                 model.add(episodeLink);
                 Link keywordLink = linkTo(
-                                methodOn(PracticeController.class).getAcquireCharacterKeywords(dto.characterId, null))
-                                .withRel("acquire-keyword");
+                                methodOn(PracticeController.class).getCharacterKeywords(dto.characterId, null))
+                                .withRel("keyword");
                 model.add(keywordLink);
 
                 return model;
