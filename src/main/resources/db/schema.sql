@@ -84,7 +84,7 @@ CREATE TABLE PracticeKeyword (
 );
 CREATE TABLE PracticeSkill (
     id VARCHAR(255) NOT NULL,
-    title VARCHAR(255),
+    content VARCHAR(255),
     episodeFk VARCHAR(255),
     PRIMARY KEY (id),
     FOREIGN KEY (episodeFk) REFERENCES PracticeEpisode(id)

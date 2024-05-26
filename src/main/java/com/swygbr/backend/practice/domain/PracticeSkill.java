@@ -6,7 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "PracticeSkill")
 public class PracticeSkill {
@@ -15,7 +17,7 @@ public class PracticeSkill {
     private String id;
 
     @Column(length = 255)
-    private String title;
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "episodeFk")

@@ -31,4 +31,7 @@ public class PracticeEpisode {
 
     @OneToMany(mappedBy = "episode")
     private List<PracticeKeyword> keywords;
+
+    @OneToMany(mappedBy = "episode")
+    private List<PracticeSkill> skills; // 추가된 필드
 }
