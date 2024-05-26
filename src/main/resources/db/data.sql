@@ -461,9 +461,15 @@ VALUES(1, 'EP001');
 INSERT INTO PracticeKeyword(id, category, content, episodeFk)
 VALUES('KW001', '성격', '차분함', 'EP001');
 INSERT INTO PracticeKeyword(id, category, content, episodeFk)
-VALUES('KW002', '취향', '짜장면', 'EP002');
+VALUES('KW002', '성격', '긍정적', 'EP001');
 INSERT INTO PracticeKeyword(id, category, content, episodeFk)
 VALUES('KW003', '취향', '볶음밥', 'EP002');
+INSERT INTO PracticeSkill(id, content, episodeFk)
+VALUES('SK001', '말쏨씨', 'EP001');
+INSERT INTO PracticeSkill(id, content, episodeFk)
+VALUES('SK002', '침착함', 'EP001');
+INSERT INTO PracticeSkill(id, content, episodeFk)
+VALUES('SK003', '열정', 'EP002');
 INSERT INTO PracticeMessage(
         id,
         actor,
