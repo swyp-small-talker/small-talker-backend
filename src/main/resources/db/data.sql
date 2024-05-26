@@ -134,14 +134,6 @@ INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
 VALUES ('DETAIL003', 'INFO002', '골프');
 INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
 VALUES ('DETAIL004', 'INFO003', '등산');
-INSERT INTO Users (id, email, name, profile, role)
-VALUES (
-        1,
-        'master@gmail.com',
-        'master',
-        'http://example.com/picture.png',
-        'ROLE_USER'
-    );
 INSERT INTO UserCard (picture, title, content)
 VALUES (
         'http://example.com/picture.png',
@@ -171,6 +163,15 @@ VALUES (
         'http://example.com/picture.png',
         '스몰토커',
         '완성형 토크 플레이어 말이 필요 없는 센스를 지니고 계시군요!'
+    );
+INSERT INTO Users (id, email, name, profile, role, userCardFk)
+VALUES (
+        1,
+        'master@gmail.com',
+        'master',
+        'http://example.com/picture.png',
+        'ROLE_USER',
+        5
     );
 -- UserCard Tutorial
 -- 자스민과의 대화 시작
