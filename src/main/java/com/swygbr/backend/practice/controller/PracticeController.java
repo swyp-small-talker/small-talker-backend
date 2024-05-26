@@ -1,7 +1,5 @@
 package com.swygbr.backend.practice.controller;
 
-import java.util.List;
-
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.swygbr.backend.login.auth.JwtUserPrincipal;
 import com.swygbr.backend.practice.dto.CharacterKeywordResponseDto;
 import com.swygbr.backend.practice.dto.CharacterResponseDto;
+import com.swygbr.backend.practice.dto.CharacterSkillResponseDto;
 import com.swygbr.backend.practice.dto.EpisodeResponseDto;
 import com.swygbr.backend.practice.dto.MessageResponseDto;
 import com.swygbr.backend.practice.service.PracticeService;
@@ -61,6 +60,15 @@ public class PracticeController {
             @PathVariable String characterId,
             @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
         EntityModel<CharacterKeywordResponseDto> dto = practiceService.getCharacterKeywords(characterId,
+                userPrincipal.getUserId());
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/character/{characterId}/skill")
+    public ResponseEntity<EntityModel<CharacterSkillResponseDto>> getCharacterSkill(
+            @PathVariable String characterId,
+            @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
+        EntityModel<CharacterSkillResponseDto> dto = practiceService.getCharacterSkills(characterId,
                 userPrincipal.getUserId());
         return ResponseEntity.ok(dto);
     }

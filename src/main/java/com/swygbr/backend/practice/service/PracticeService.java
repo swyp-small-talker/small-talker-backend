@@ -13,8 +13,10 @@ import com.swygbr.backend.practice.domain.PracticeCharacter;
 import com.swygbr.backend.practice.domain.PracticeEpisode;
 import com.swygbr.backend.practice.domain.PracticeKeyword;
 import com.swygbr.backend.practice.domain.PracticeMessage;
+import com.swygbr.backend.practice.domain.PracticeSkill;
 import com.swygbr.backend.practice.dto.CharacterKeywordResponseDto;
 import com.swygbr.backend.practice.dto.CharacterResponseDto;
+import com.swygbr.backend.practice.dto.CharacterSkillResponseDto;
 import com.swygbr.backend.practice.dto.EpisodeCompleteRequestDto;
 import com.swygbr.backend.practice.dto.EpisodeCompleteResponseDto;
 import com.swygbr.backend.practice.dto.EpisodeResponseDto;
@@ -23,6 +25,7 @@ import com.swygbr.backend.practice.repository.PracticeCharacterRepository;
 import com.swygbr.backend.practice.repository.PracticeEpisodeRepository;
 import com.swygbr.backend.practice.repository.PracticeKeywordRepository;
 import com.swygbr.backend.practice.repository.PracticeMessageRepository;
+import com.swygbr.backend.practice.repository.PracticeSkillRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,6 +36,7 @@ public class PracticeService {
     private final PracticeEpisodeRepository episodeRepository;
     private final PracticeMessageRepository messageRepository;
     private final PracticeKeywordRepository keywordRepository;
+    private final PracticeSkillRepository skillRepository;
 
     public CollectionModel<EntityModel<CharacterResponseDto>> getCharacterList(Long userId) {
         List<PracticeCharacter> entities = characterRepository.findAll();
@@ -82,6 +86,16 @@ public class PracticeService {
         int acquireKeywordCount = keywords.size();
         EntityModel<CharacterKeywordResponseDto> model = CharacterKeywordResponseDto.fromEntities(characterId,
                 totalKeywordCount, acquireKeywordCount, keywords);
+        return model;
+    }
+
+    public EntityModel<CharacterSkillResponseDto> getCharacterSkills(String characterId, Long userId) {
+        int totalSkillCount = skillRepository.countTotalSkillsByCharacterId(characterId);
+        List<PracticeSkill> skills = skillRepository.findAcquiredSkillsByUserIdAndCharacterId(userId,
+                characterId);
+        int acquireSkillCount = skills.size();
+        EntityModel<CharacterSkillResponseDto> model = CharacterSkillResponseDto.fromEntities(characterId,
+                totalSkillCount, acquireSkillCount, skills);
         return model;
     }
 
