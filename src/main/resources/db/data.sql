@@ -472,7 +472,6 @@ INSERT INTO PracticeMessage(
         id,
         actor,
         messageType,
-        correct,
         content,
         episodeFk,
         parentFk
@@ -481,7 +480,6 @@ VALUES(
         'MG001',
         'CHARACTER',
         'TEXT',
-        NULL,
         'first message',
         'EP001',
         NULL
@@ -490,7 +488,6 @@ INSERT INTO PracticeMessage(
         id,
         actor,
         messageType,
-        correct,
         content,
         episodeFk,
         parentFk
@@ -499,7 +496,6 @@ VALUES(
         'MG002',
         'CHARACTER',
         'TEXT',
-        NULL,
         'second message',
         'EP001',
         'MG001'
@@ -508,25 +504,118 @@ INSERT INTO PracticeMessage(
         id,
         actor,
         messageType,
-        correct,
         content,
         episodeFk,
         parentFk
     )
 VALUES(
         'MG003',
-        'CHARACTER',
-        'LAST_MESSAGE',
-        NULL,
-        'last message',
+        'USER',
+        'CHOICE_PARENT',
+        '선택지를 선택하세요',
         'EP001',
-        'MG001'
+        'MG002'
     );
 INSERT INTO PracticeMessage(
         id,
         actor,
         messageType,
-        correct,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG004',
+        'USER',
+        'CHOICE',
+        '1번 선택지',
+        'EP001',
+        'MG003'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG005',
+        'USER',
+        'CHOICE',
+        '2번 선택지',
+        'EP001',
+        'MG003'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG006',
+        'USER',
+        'CHOICE',
+        '3번 선택지 이게 정답',
+        'EP001',
+        'MG003'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG007',
+        'USER',
+        'TEXT',
+        '1번 선택지 반응이나 대답',
+        'EP001',
+        'MG004'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG008',
+        'USER',
+        'TEXT',
+        '2번 선택지 반응이나 대답',
+        'EP001',
+        'MG005'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG009',
+        'CHARACTER',
+        'LAST_MESSAGE',
+        'last message',
+        'EP001',
+        'MG006'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
         content,
         episodeFk,
         parentFk
@@ -535,7 +624,6 @@ VALUES(
         'MG010',
         'CHARACTER',
         'LAST_MESSAGE',
-        NULL,
         'second message',
         'EP002',
         NULL
