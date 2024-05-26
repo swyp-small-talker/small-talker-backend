@@ -456,8 +456,6 @@ INSERT INTO PracticeEpisode(id, title, characterFk)
 VALUES('EP001', 'Episode 1', 'CH001');
 INSERT INTO PracticeEpisode(id, title, characterFk)
 VALUES('EP002', 'Episode 2', 'CH001');
-INSERT INTO PracticeEpisodeComplete(userFk, episodeFk)
-VALUES(1, 'EP001');
 INSERT INTO PracticeKeyword(id, category, content, episodeFk)
 VALUES('KW001', '성격', '차분함', 'EP001');
 INSERT INTO PracticeKeyword(id, category, content, episodeFk)
@@ -516,9 +514,27 @@ INSERT INTO PracticeMessage(
         parentFk
     )
 VALUES(
+        'MG003',
+        'CHARACTER',
+        'LAST_MESSAGE',
+        NULL,
+        'last message',
+        'EP001',
+        'MG001'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        correct,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
         'MG010',
         'CHARACTER',
-        'TEXT',
+        'LAST_MESSAGE',
         NULL,
         'second message',
         'EP002',
