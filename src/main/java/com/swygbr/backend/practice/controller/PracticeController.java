@@ -21,16 +21,19 @@ import com.swygbr.backend.practice.dto.EpisodeResponseDto;
 import com.swygbr.backend.practice.dto.MessageResponseDto;
 import com.swygbr.backend.practice.service.PracticeService;
 
-@RestController
-@RequestMapping("/practice2")
-public class PracticeController {
+import lombok.RequiredArgsConstructor;
 
-    private PracticeService practiceService;
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/practice")
+public class PracticeController {
+    private final PracticeService practiceService;
 
     // 대화 연습 캐릭터 목록 조회
     @GetMapping("/character")
-    public ResponseEntity<List<EntityModel<CharacterResponseDto>>> getCharacterList() {
-        List<EntityModel<CharacterResponseDto>> dto = practiceService.getCharacterList();
+    public ResponseEntity<List<EntityModel<CharacterResponseDto>>> getCharacterList(
+            @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
+        List<EntityModel<CharacterResponseDto>> dto = practiceService.getCharacterList(userPrincipal.getUserId());
         return ResponseEntity.ok(dto);
     }
 
@@ -50,7 +53,8 @@ public class PracticeController {
 
     // 대화 연습 캐릭터의 사용자가 획득한 키워드 목록 조회
     @GetMapping("/character/{characterId}/acquire-keyword")
-    public ResponseEntity<EntityModel<AcquireKeywordResponseDto>> getCharacterKeywords(@PathVariable String characterId,
+    public ResponseEntity<EntityModel<AcquireKeywordResponseDto>> getAcquireCharacterKeywords(
+            @PathVariable String characterId,
             @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
         EntityModel<AcquireKeywordResponseDto> dto = practiceService.getAquireKeywords(characterId,
                 userPrincipal.getUserId());

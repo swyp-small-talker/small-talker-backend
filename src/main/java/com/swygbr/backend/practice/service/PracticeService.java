@@ -1,10 +1,17 @@
 package com.swygbr.backend.practice.service;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 
+import com.swygbr.backend.practice.controller.PracticeController;
+import com.swygbr.backend.practice.domain.PracticeCharacter;
 import com.swygbr.backend.practice.dto.AcquireKeywordResponseDto;
 import com.swygbr.backend.practice.dto.CharacterResponseDto;
 import com.swygbr.backend.practice.dto.EpisodeCompleteRequestDto;
@@ -26,9 +33,16 @@ public class PracticeService {
     private final PracticeMessageRepository messageRepository;
     private final PracticeEpisodeCompleteRepository episodeCompleteRepository;
 
-    public List<EntityModel<CharacterResponseDto>> getCharacterList() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCharacterList'");
+    public List<EntityModel<CharacterResponseDto>> getCharacterList(Long userId) {
+        List<PracticeCharacter> entities = characterRepository.findAll();
+
+        List<EntityModel<CharacterResponseDto>> result = new ArrayList<>();
+        for (PracticeCharacter entity : entities) {
+            boolean complete = characterRepository.isCharacterCompleted(entity.getId(), userId);
+            EntityModel<CharacterResponseDto> model = CharacterResponseDto.fromEntity(entity, complete);
+            result.add(model);
+        }
+        return result;
     }
 
     public EntityModel<CharacterResponseDto> getCharacter(String characterId) {
