@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.swygbr.backend.login.auth.JwtUserPrincipal;
-import com.swygbr.backend.practice.entity.CharacterMain;
+import com.swygbr.backend.practice.dto.CharacterResponseDto;
 import com.swygbr.backend.practice.entity.EpisodeDialog;
 import com.swygbr.backend.practice.entity.EpisodeMain;
 import com.swygbr.backend.practice.service.PracticeService;
@@ -28,29 +29,16 @@ public class PracticeController {
     @Autowired
     private PracticeService practiceService;
 
-    // 대화 연습 목록 조회
-    @GetMapping
-    public ResponseEntity<?> getPracticeList() {
-        List<EpisodeMain> episodeList = practiceService.getAllEpisodes();
-        return ResponseEntity.ok(episodeList);
-    }
-
     // 대화 연습 캐릭터 목록 조회
     @GetMapping("/character")
-    public ResponseEntity<?> getCharacterList() {
-        List<CharacterMain> characterList = practiceService.getCharacterList();
-        return ResponseEntity.ok(characterList);
+    public ResponseEntity<List<EntityModel<CharacterResponseDto>>> getCharacterList() {
+        return ResponseEntity.ok(practiceService.getCharacterList());
     }
 
     // 대화 연습 캐릭터 목록 조회
     @GetMapping("/character/{characterId}")
-    public ResponseEntity<?> getCharacter(@PathVariable String characterId) {
-        CharacterMain character = practiceService.getCharacterById(characterId);
-        if (character == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(character);
+    public ResponseEntity<EntityModel<CharacterResponseDto>> getCharacter(@PathVariable String characterId) {
+        return ResponseEntity.ok(practiceService.getCharacterById(characterId));
     }
 
     // 대화 연습 캐릭터의 에피소드 목록 및 완료 여부 조회
@@ -66,7 +54,7 @@ public class PracticeController {
     }
 
     // 대화 연습 캐릭터의 키워드 목록 조회
-    @GetMapping("/character/{characterId}/keyword")
+    @GetMapping("/character/{characterId}/acquire-keyword")
     public ResponseEntity<List<Map<String, Object>>> getCharacterKeywords(@PathVariable String characterId) {
         List<Object[]> results = practiceService.getCharacterKeywords(characterId);
         List<Map<String, Object>> characterKeywords = new ArrayList<>();

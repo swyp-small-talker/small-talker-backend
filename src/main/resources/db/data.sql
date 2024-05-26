@@ -111,30 +111,6 @@ VALUES (
         '... (꾸벅)',
         'N'
     );
--- TB_EPISODE_REWARD
-INSERT INTO TB_EPISODE_REWARD (reward_id, episode_id, character_id, reward_nm)
-VALUES ('RWD001', 'EP001', 'CH001', '김부장의 명함');
-INSERT INTO TB_EPISODE_REWARD (reward_id, episode_id, character_id, reward_nm)
-VALUES ('RWD002', 'EP002', 'CH002', '박대리의 커피 쿠폰');
-INSERT INTO TB_EPISODE_REWARD (reward_id, episode_id, character_id, reward_nm)
-VALUES ('RWD003', 'EP003', 'CH003', '최사원의 맛집 리스트');
--- TB_CHARACTER_INFO
-INSERT INTO TB_CHARACTER_INFO (info_id, character_id, info_category_nm)
-VALUES ('INFO001', 'CH001', '성격');
-INSERT INTO TB_CHARACTER_INFO (info_id, character_id, info_category_nm)
-VALUES ('INFO002', 'CH002', '관심사');
-INSERT INTO TB_CHARACTER_INFO (info_id, character_id, info_category_nm)
-VALUES ('INFO003', 'CH003', '취미');
--- TB_CHARACTER_INFO_DETAIL
-INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
-VALUES ('DETAIL001', 'INFO001', '엄격함');
-INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
-VALUES ('DETAIL002', 'INFO001', '낙천적');
-INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
-VALUES ('DETAIL003', 'INFO002', '골프');
-INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
-VALUES ('DETAIL004', 'INFO003', '등산');
-INSERT INTO UserCard (picture, title, content)
 VALUES (
         'http://example.com/picture.png',
         '리액션봇',

@@ -65,6 +65,13 @@ CREATE TABLE TB_EPISODE_MAIN (
     episode_title VARCHAR(255) NULL,
     episode_complete_yn VARCHAR(255) NULL
 );
+CREATE TABLE CharacterKeyword (
+    id VARCHAR(255) NOT NULL PRIMARY KEY,
+    character_id VARCHAR(255) NOT NULL,
+    episode_id VARCHAR(255) NOT NULL,
+    category VARCHAR(255) NOT NULL,
+    content VARCHAR(255) NOT NULL
+);
 CREATE TABLE TB_EPISODE_DIALOG (
     dialog_id VARCHAR(255) NOT NULL,
     episode_id VARCHAR(255) NULL,
@@ -84,6 +91,7 @@ CREATE TABLE TB_EPISODE_REWARD (
 CREATE TABLE TB_CHARACTER_INFO (
     info_id VARCHAR(255) NOT NULL COMMENT '성격/관심사 등',
     character_id VARCHAR(255) NULL,
+    episode_id VARCHAR(255) NULL,
     info_category_nm VARCHAR(255) NULL
 );
 CREATE TABLE TB_CHARACTER_INFO_DETAIL (
