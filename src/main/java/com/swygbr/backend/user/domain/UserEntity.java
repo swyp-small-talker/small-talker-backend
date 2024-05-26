@@ -69,9 +69,13 @@ public class UserEntity {
         this.completeUserCardTypeTutorial = true;
     }
 
-    public void setName(String name) {
+    public void updateName(String name) {
         this.name = name;
         this.completeProfileTypeTutorial = true;
+    }
+
+    public void updateProfile(String profile) {
+        this.profile = profile;
     }
 
     public boolean completeTalk() {
