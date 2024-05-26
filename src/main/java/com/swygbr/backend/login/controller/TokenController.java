@@ -14,12 +14,12 @@ import com.swygbr.backend.login.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/token")
+@RequestMapping("/login")
 @RestController
 public class TokenController {
     private final JwtUtil jwtUtil;
 
-    @GetMapping("/valid")
+    @GetMapping("/token/valid")
     public ResponseEntity<?> validAccessToken(@RequestBody AccessTokenDto accessTokenDto) {
         if (jwtUtil.validateToken(accessTokenDto.accessToken())) {
             return ResponseEntity.ok(new TokenValidDto(true));
@@ -28,7 +28,7 @@ public class TokenController {
         }
     }
 
-    @GetMapping("/refresh")
+    @GetMapping("/token/refresh")
     public ResponseEntity<?> refreshCookie(@RequestBody RefreshTokenRequestDto refreshTokenRequestDto) {
         if (jwtUtil.validateToken(refreshTokenRequestDto.refreshToken())) {
             AccessTokenDto accessTokenDto = new AccessTokenDto(
