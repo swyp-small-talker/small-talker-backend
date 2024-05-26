@@ -1,5 +1,12 @@
 {
   "java.compile.nullAnalysis.mode": "disabled",
-  "java.configuration.updateBuildConfiguration": "automatic",
-  "cSpell.words": ["swygbr"]
+  "cSpell.words": [
+    "hateoas",
+    "imgur",
+    "smalltalker",
+    "springframework",
+    "swygbr"
+  ],
+  "java.trace.server": "verbose",
+  "java.debug.settings.onBuildFailureProceed": true
 }

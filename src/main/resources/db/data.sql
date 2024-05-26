@@ -1,139 +1,4 @@
--- TB_CHARACTER_MAIN
-INSERT INTO TB_CHARACTER_MAIN (character_id, character_nm, character_type)
-VALUES ('CH001', '김부장', '부장');
-INSERT INTO TB_CHARACTER_MAIN (character_id, character_nm, character_type)
-VALUES ('CH002', '박대리', '직속후배');
-INSERT INTO TB_CHARACTER_MAIN (character_id, character_nm, character_type)
-VALUES ('CH003', '최사원', '동기');
--- TB_EPISODE_MAIN
-INSERT INTO TB_EPISODE_MAIN (
-        episode_id,
-        character_id,
-        user_id,
-        episode_title,
-        episode_complete_yn
-    )
-VALUES ('EP001', 'CH001', 1, '첫 출근', 'N');
-INSERT INTO TB_EPISODE_MAIN (
-        episode_id,
-        character_id,
-        user_id,
-        episode_title,
-        episode_complete_yn
-    )
-VALUES ('EP002', 'CH001', 1, '점심 메뉴 고르기', 'N');
-INSERT INTO TB_EPISODE_MAIN (
-        episode_id,
-        character_id,
-        user_id,
-        episode_title,
-        episode_complete_yn
-    )
-VALUES ('EP003', 'CH001', 1, '퇴근 후 한 잔', 'N');
--- TB_EPISODE_DIALOG
-INSERT INTO TB_EPISODE_DIALOG (
-        dialog_id,
-        episode_id,
-        character_id,
-        parent_dialog_id,
-        left_right,
-        user_choose,
-        dialog_detail,
-        correct_answer_yn
-    )
-VALUES (
-        'DLG000',
-        'EP001',
-        'CH001',
-        NULL,
-        NULL,
-        NULL,
-        '최상위대화',
-        NULL
-    );
-INSERT INTO TB_EPISODE_DIALOG (
-        dialog_id,
-        episode_id,
-        character_id,
-        parent_dialog_id,
-        left_right,
-        user_choose,
-        dialog_detail,
-        correct_answer_yn
-    )
-VALUES (
-        'DLG001',
-        'EP001',
-        'CH001',
-        'DLG000',
-        'L',
-        NULL,
-        '안녕하세요, 신입사원?',
-        NULL
-    );
-INSERT INTO TB_EPISODE_DIALOG (
-        dialog_id,
-        episode_id,
-        character_id,
-        parent_dialog_id,
-        left_right,
-        user_choose,
-        dialog_detail,
-        correct_answer_yn
-    )
-VALUES (
-        'DLG002',
-        'EP001',
-        'CH001',
-        'DLG001',
-        'R',
-        '인사를 한다',
-        '네, 안녕하세요! 김부장님!',
-        'Y'
-    );
-INSERT INTO TB_EPISODE_DIALOG (
-        dialog_id,
-        episode_id,
-        character_id,
-        parent_dialog_id,
-        left_right,
-        user_choose,
-        dialog_detail,
-        correct_answer_yn
-    )
-VALUES (
-        'DLG003',
-        'EP001',
-        'CH001',
-        'DLG001',
-        'R',
-        '고개를 끄덕인다',
-        '... (꾸벅)',
-        'N'
-    );
--- TB_EPISODE_REWARD
-INSERT INTO TB_EPISODE_REWARD (reward_id, episode_id, character_id, reward_nm)
-VALUES ('RWD001', 'EP001', 'CH001', '김부장의 명함');
-INSERT INTO TB_EPISODE_REWARD (reward_id, episode_id, character_id, reward_nm)
-VALUES ('RWD002', 'EP002', 'CH002', '박대리의 커피 쿠폰');
-INSERT INTO TB_EPISODE_REWARD (reward_id, episode_id, character_id, reward_nm)
-VALUES ('RWD003', 'EP003', 'CH003', '최사원의 맛집 리스트');
--- TB_CHARACTER_INFO
-INSERT INTO TB_CHARACTER_INFO (info_id, character_id, info_category_nm)
-VALUES ('INFO001', 'CH001', '성격');
-INSERT INTO TB_CHARACTER_INFO (info_id, character_id, info_category_nm)
-VALUES ('INFO002', 'CH002', '관심사');
-INSERT INTO TB_CHARACTER_INFO (info_id, character_id, info_category_nm)
-VALUES ('INFO003', 'CH003', '취미');
--- TB_CHARACTER_INFO_DETAIL
-INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
-VALUES ('DETAIL001', 'INFO001', '엄격함');
-INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
-VALUES ('DETAIL002', 'INFO001', '낙천적');
-INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
-VALUES ('DETAIL003', 'INFO002', '골프');
-INSERT INTO TB_CHARACTER_INFO_DETAIL (info_detail_id, info_id, info_detail_nm)
-VALUES ('DETAIL004', 'INFO003', '등산');
+-- UserCard
 INSERT INTO UserCard (picture, title, content)
 VALUES (
         'http://example.com/picture.png',
@@ -164,6 +29,7 @@ VALUES (
         '스몰토커',
         '완성형 토크 플레이어 말이 필요 없는 센스를 지니고 계시군요!'
     );
+-- Users
 INSERT INTO Users (id, email, name, profile, role, userCardFk)
 VALUES (
         1,
@@ -175,7 +41,6 @@ VALUES (
     );
 -- UserCard Tutorial
 -- 자스민과의 대화 시작
---
 -- question 3
 INSERT INTO Tutorial (id, tutorialType, isStart, nextTutorialFk)
 VALUES (30, 'USER_CARD', false, NULL);
@@ -576,3 +441,190 @@ INSERT INTO TutorialMessageChoice (
         content
     )
 VALUES (30, 3, 'COMMON', '아직 마음의 준비가.....');
+-- users
+INSERT INTO PracticeCharacter (
+        id,
+        name,
+        characterType
+    )
+VALUES (
+        'CH001',
+        '권지용',
+        '부장'
+    );
+INSERT INTO PracticeEpisode(id, title, characterFk)
+VALUES('EP001', 'Episode 1', 'CH001');
+INSERT INTO PracticeEpisode(id, title, characterFk)
+VALUES('EP002', 'Episode 2', 'CH001');
+INSERT INTO PracticeKeyword(id, category, content, episodeFk)
+VALUES('KW001', '성격', '차분함', 'EP001');
+INSERT INTO PracticeKeyword(id, category, content, episodeFk)
+VALUES('KW002', '성격', '긍정적', 'EP001');
+INSERT INTO PracticeKeyword(id, category, content, episodeFk)
+VALUES('KW003', '취향', '볶음밥', 'EP002');
+INSERT INTO PracticeSkill(id, content, episodeFk)
+VALUES('SK001', '말쏨씨', 'EP001');
+INSERT INTO PracticeSkill(id, content, episodeFk)
+VALUES('SK002', '침착함', 'EP001');
+INSERT INTO PracticeSkill(id, content, episodeFk)
+VALUES('SK003', '열정', 'EP002');
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG001',
+        'CHARACTER',
+        'TEXT',
+        'first message',
+        'EP001',
+        NULL
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG002',
+        'CHARACTER',
+        'TEXT',
+        'second message',
+        'EP001',
+        'MG001'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG003',
+        'USER',
+        'CHOICE_PARENT',
+        '선택지를 선택하세요',
+        'EP001',
+        'MG002'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG004',
+        'USER',
+        'CHOICE',
+        '1번 선택지',
+        'EP001',
+        'MG003'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG005',
+        'USER',
+        'CHOICE',
+        '2번 선택지',
+        'EP001',
+        'MG003'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG006',
+        'USER',
+        'CHOICE',
+        '3번 선택지 이게 정답',
+        'EP001',
+        'MG003'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG007',
+        'USER',
+        'TEXT',
+        '1번 선택지 반응이나 대답',
+        'EP001',
+        'MG004'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG008',
+        'USER',
+        'TEXT',
+        '2번 선택지 반응이나 대답',
+        'EP001',
+        'MG005'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG009',
+        'CHARACTER',
+        'LAST_MESSAGE',
+        'last message',
+        'EP001',
+        'MG006'
+    );
+INSERT INTO PracticeMessage(
+        id,
+        actor,
+        messageType,
+        content,
+        episodeFk,
+        parentFk
+    )
+VALUES(
+        'MG010',
+        'CHARACTER',
+        'LAST_MESSAGE',
+        'second message',
+        'EP002',
+        NULL
+    );

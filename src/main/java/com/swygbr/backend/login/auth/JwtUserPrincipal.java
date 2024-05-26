@@ -1,7 +1,5 @@
 package com.swygbr.backend.login.auth;
 
-import java.security.Principal;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
