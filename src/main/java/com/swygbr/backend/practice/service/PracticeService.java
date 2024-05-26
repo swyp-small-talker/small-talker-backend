@@ -2,8 +2,8 @@ package com.swygbr.backend.practice.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,6 @@ import com.swygbr.backend.practice.dto.EpisodeCompleteResponseDto;
 import com.swygbr.backend.practice.dto.EpisodeResponseDto;
 import com.swygbr.backend.practice.dto.MessageResponseDto;
 import com.swygbr.backend.practice.repository.PracticeCharacterRepository;
-import com.swygbr.backend.practice.repository.PracticeEpisodeCompleteRepository;
 import com.swygbr.backend.practice.repository.PracticeEpisodeRepository;
 import com.swygbr.backend.practice.repository.PracticeKeywordRepository;
 import com.swygbr.backend.practice.repository.PracticeMessageRepository;
@@ -35,15 +34,18 @@ public class PracticeService {
     private final PracticeMessageRepository messageRepository;
     private final PracticeKeywordRepository keywordRepository;
 
-    public List<EntityModel<CharacterResponseDto>> getCharacterList(Long userId) {
+    public CollectionModel<EntityModel<CharacterResponseDto>> getCharacterList(Long userId) {
         List<PracticeCharacter> entities = characterRepository.findAll();
 
-        List<EntityModel<CharacterResponseDto>> result = new ArrayList<>();
+        List<EntityModel<CharacterResponseDto>> modelList = new ArrayList<>();
         for (PracticeCharacter entity : entities) {
             boolean complete = characterRepository.isCharacterCompleted(entity.getId(), userId);
             EntityModel<CharacterResponseDto> model = CharacterResponseDto.fromEntity(entity, complete);
-            result.add(model);
+            modelList.add(model);
         }
+
+        CollectionModel<EntityModel<CharacterResponseDto>> result = CollectionModel.of(modelList);
+
         return result;
     }
 
@@ -56,20 +58,21 @@ public class PracticeService {
         return model;
     }
 
-    public List<EntityModel<EpisodeResponseDto>> getCharacterEpisode(String characterId, Long userId) {
+    public CollectionModel<EntityModel<EpisodeResponseDto>> getCharacterEpisode(String characterId, Long userId) {
         List<PracticeEpisode> entities = episodeRepository.findByCharacter_Id(characterId);
 
-        List<EntityModel<EpisodeResponseDto>> result = new ArrayList<>();
+        List<EntityModel<EpisodeResponseDto>> modelList = new ArrayList<>();
         for (PracticeEpisode entity : entities) {
             PracticeMessage startMessageEntity = messageRepository.findByParentIsNullAndEpisode_Id(entity.getId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "시작 message를 찾을 수 없습니다."));
 
             boolean complete = episodeRepository.isEpisodeCompleted(entity.getId(), userId);
             String startMessageId = startMessageEntity.getId();
-            EntityModel<EpisodeResponseDto> model = EpisodeResponseDto.fromEntity(entity, complete, startMessageId);
-            result.add(model);
+            EntityModel<EpisodeResponseDto> model = EpisodeResponseDto.fromEntity(entity, complete, startMessageId,
+                    characterId);
+            modelList.add(model);
         }
-        return result;
+        return CollectionModel.of(modelList);
     }
 
     public EntityModel<CharacterKeywordResponseDto> getCharacterKeywords(String characterId, Long userId) {

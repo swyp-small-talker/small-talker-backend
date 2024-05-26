@@ -2,21 +2,18 @@ package com.swygbr.backend.practice.controller;
 
 import java.util.List;
 
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.swygbr.backend.login.auth.JwtUserPrincipal;
 import com.swygbr.backend.practice.dto.CharacterKeywordResponseDto;
 import com.swygbr.backend.practice.dto.CharacterResponseDto;
-import com.swygbr.backend.practice.dto.EpisodeCompleteRequestDto;
-import com.swygbr.backend.practice.dto.EpisodeCompleteResponseDto;
 import com.swygbr.backend.practice.dto.EpisodeResponseDto;
 import com.swygbr.backend.practice.dto.MessageResponseDto;
 import com.swygbr.backend.practice.service.PracticeService;
@@ -31,10 +28,11 @@ public class PracticeController {
 
     // 대화 연습 캐릭터 목록 조회
     @GetMapping("/character")
-    public ResponseEntity<List<EntityModel<CharacterResponseDto>>> getCharacterList(
+    public ResponseEntity<CollectionModel<EntityModel<CharacterResponseDto>>> getCharacterList(
             @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
-        List<EntityModel<CharacterResponseDto>> dto = practiceService.getCharacterList(userPrincipal.getUserId());
-        return ResponseEntity.ok(dto);
+        CollectionModel<EntityModel<CharacterResponseDto>> dtoList = practiceService
+                .getCharacterList(userPrincipal.getUserId());
+        return ResponseEntity.ok(dtoList);
     }
 
     // 대화 연습 캐릭터 조회
@@ -48,10 +46,11 @@ public class PracticeController {
 
     // 대화 연습 캐릭터의 에피소드 목록 조회
     @GetMapping("/character/{characterId}/episode")
-    public ResponseEntity<List<EntityModel<EpisodeResponseDto>>> getCharacterEpisode(@PathVariable String characterId,
+    public ResponseEntity<CollectionModel<EntityModel<EpisodeResponseDto>>> getCharacterEpisode(
+            @PathVariable String characterId,
             @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
 
-        List<EntityModel<EpisodeResponseDto>> dtoList = practiceService.getCharacterEpisode(characterId,
+        CollectionModel<EntityModel<EpisodeResponseDto>> dtoList = practiceService.getCharacterEpisode(characterId,
                 userPrincipal.getUserId());
         return ResponseEntity.ok(dtoList);
     }
