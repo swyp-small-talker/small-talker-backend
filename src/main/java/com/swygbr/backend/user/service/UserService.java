@@ -42,6 +42,22 @@ public class UserService {
         return model;
     }
 
+    public void updateUserById(Long userId, UserRequestDto requestDto) {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."));
+
+        String profile = userEntity.getProfile();
+        try {
+            profile = imgurService.uploadImage(requestDto.base64Profile());
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getLocalizedMessage(), e.getCause());
+        }
+
+        userEntity.updateName(requestDto.name());
+        userEntity.updateProfile(profile);
+        userRepository.save(userEntity);
+    }
+
     public void deleteUser(Long userId) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."));

@@ -59,7 +59,7 @@ public class TutorialService {
         UserEntity userEntity = getDefaultUser();
 
         if (request.inputType() == TutorialMessageInputType.USER_NAME) {
-            userEntity.setName(request.data());
+            userEntity.updateName(request.data());
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "지원하지 않는 inputType입니다.");
         }
