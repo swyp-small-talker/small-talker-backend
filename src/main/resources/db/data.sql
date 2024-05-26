@@ -29,6 +29,7 @@ VALUES (
         '스몰토커',
         '완성형 토크 플레이어 말이 필요 없는 센스를 지니고 계시군요!'
     );
+-- Users
 INSERT INTO Users (id, email, name, profile, role, userCardFk)
 VALUES (
         1,
@@ -440,3 +441,16 @@ INSERT INTO TutorialMessageChoice (
         content
     )
 VALUES (30, 3, 'COMMON', '아직 마음의 준비가.....');
+-- users
+INSERT INTO PracticeCharacter (
+        id,
+        name,
+        characterType
+    )
+VALUES (
+        'CH001',
+        '권지용',
+        '부장'
+    );
+INSERT INTO PracticeEpisode(id, title, characterFk)
+VALUES('CH001_EP001', 'Episode 1', 'CH001');
