@@ -39,8 +39,10 @@ public class PracticeController {
 
     // 대화 연습 캐릭터 조회
     @GetMapping("/character/{characterId}")
-    public ResponseEntity<EntityModel<CharacterResponseDto>> getCharacter(@PathVariable String characterId) {
-        EntityModel<CharacterResponseDto> dto = practiceService.getCharacter(characterId);
+    public ResponseEntity<EntityModel<CharacterResponseDto>> getCharacter(@PathVariable String characterId,
+            @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
+
+        EntityModel<CharacterResponseDto> dto = practiceService.getCharacter(characterId, userPrincipal.getUserId());
         return ResponseEntity.ok(dto);
     }
 

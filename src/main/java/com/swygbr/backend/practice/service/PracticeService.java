@@ -1,16 +1,13 @@
 package com.swygbr.backend.practice.service;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import com.swygbr.backend.practice.controller.PracticeController;
 import com.swygbr.backend.practice.domain.PracticeCharacter;
 import com.swygbr.backend.practice.dto.AcquireKeywordResponseDto;
 import com.swygbr.backend.practice.dto.CharacterResponseDto;
@@ -45,9 +42,13 @@ public class PracticeService {
         return result;
     }
 
-    public EntityModel<CharacterResponseDto> getCharacter(String characterId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCharacter'");
+    public EntityModel<CharacterResponseDto> getCharacter(String characterId, Long userId) {
+        PracticeCharacter entity = characterRepository.findById(characterId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "캐릭터를 찾을 수 없습니다.."));
+
+        boolean complete = characterRepository.isCharacterCompleted(entity.getId(), userId);
+        EntityModel<CharacterResponseDto> model = CharacterResponseDto.fromEntity(entity, complete);
+        return model;
     }
 
     public List<EntityModel<EpisodeResponseDto>> getCharacterEpisode(String characterId) {
