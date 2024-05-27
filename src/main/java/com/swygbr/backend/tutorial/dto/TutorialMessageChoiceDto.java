@@ -1,8 +1,12 @@
 package com.swygbr.backend.tutorial.dto;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.Objects;
+
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.swygbr.backend.tutorial.controller.TutorialController;
@@ -10,18 +14,22 @@ import com.swygbr.backend.tutorial.domain.TutorialMessageChoiceEntity;
 import com.swygbr.backend.tutorial.enums.TutorialMessageChoiceType;
 
 @JsonIgnoreProperties({ "reactionTutorialFk" })
-public record TutorialMessageChoiceDto(Long choiceId, TutorialMessageChoiceType choiceType, String content,
-    String reaction) {
-  public static TutorialMessageChoiceDto fromEntity(TutorialMessageChoiceEntity entity) {
+public record TutorialMessageChoiceDto(Long choiceId, TutorialMessageChoiceType choiceType, String content) {
+  public static EntityModel<TutorialMessageChoiceDto> fromEntity(TutorialMessageChoiceEntity entity) {
     if (Objects.isNull(entity)) {
       return null;
     }
 
-    String reaction = null;
+    TutorialMessageChoiceDto tutorialMessageChoiceDto = new TutorialMessageChoiceDto(entity.getId(),
+        entity.getChoiceType(), entity.getContent());
+    EntityModel<TutorialMessageChoiceDto> model = EntityModel.of(tutorialMessageChoiceDto);
+
     if (entity.getReaction() != null) {
-      reaction = linkTo(TutorialController.class).slash(entity.getReaction().getId()).toString();
+      Link nextLink = linkTo(methodOn(TutorialController.class).getTutorial(entity.getReaction().getId()))
+          .withRel("next");
+      model.add(nextLink);
     }
 
-    return new TutorialMessageChoiceDto(entity.getId(), entity.getChoiceType(), entity.getContent(), reaction);
+    return model;
   }
 }

@@ -31,7 +31,7 @@ public class TutorialController {
 
   // 튜토리얼 조회
   @GetMapping("/{tutorialId}")
-  public ResponseEntity<?> getTutorial(@PathVariable(name = "tutorialId") Long tutorialId) {
+  public ResponseEntity<EntityModel<TutorialDto>> getTutorial(@PathVariable(name = "tutorialId") Long tutorialId) {
     return ResponseEntity.ok(tutorialService.findTutorialById(tutorialId));
   }
 

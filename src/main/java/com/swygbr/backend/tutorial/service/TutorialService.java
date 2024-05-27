@@ -60,7 +60,7 @@ public class TutorialService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "기본 유저를 찾을 수 없습니다."));
     }
 
-    public ResponseTutorialChoiceDto submitChoice(RequestTutorialChoiceDto request) {
+    public EntityModel<ResponseTutorialChoiceDto> completeTutorialWithChoice(RequestTutorialChoiceDto request) {
         UserEntity userEntity = getDefaultUser();
 
         if (TutorialType.USER_CARD == request.tutorialType()) {
