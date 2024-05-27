@@ -65,7 +65,7 @@ CREATE TABLE PracticeEpisodeComplete (
     userFk BIGINT,
     episodeFk VARCHAR(255),
     PRIMARY KEY (id),
-    FOREIGN KEY (userFk) REFERENCES Users(id),
+    FOREIGN KEY (userFk) REFERENCES Users(id) ON DELETE CASCADE,
     FOREIGN KEY (episodeFk) REFERENCES PracticeEpisode(id)
 );
 CREATE TABLE PracticeKeyword (
