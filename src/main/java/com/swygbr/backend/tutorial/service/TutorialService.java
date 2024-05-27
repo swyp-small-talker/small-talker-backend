@@ -1,10 +1,13 @@
 package com.swygbr.backend.tutorial.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,12 +16,10 @@ import com.swygbr.backend.tutorial.domain.TutorialEntity;
 import com.swygbr.backend.tutorial.domain.TutorialMessageChoiceEntity;
 import com.swygbr.backend.tutorial.domain.UserCardEntity;
 import com.swygbr.backend.tutorial.dto.RequestTutorialChoiceDto;
-import com.swygbr.backend.tutorial.dto.RequestTutorialInputDto;
 import com.swygbr.backend.tutorial.dto.ResponseTutorialChoiceDto;
 import com.swygbr.backend.tutorial.dto.TutorialDto;
 import com.swygbr.backend.tutorial.dto.TutorialStatusDto;
 import com.swygbr.backend.tutorial.enums.TutorialMessageChoiceType;
-import com.swygbr.backend.tutorial.enums.TutorialMessageInputType;
 import com.swygbr.backend.tutorial.enums.TutorialMessageType;
 import com.swygbr.backend.tutorial.enums.TutorialType;
 import com.swygbr.backend.tutorial.enums.UserCardType;
@@ -114,7 +115,7 @@ public class TutorialService {
             }
             userEntity.assignUserCard(userCardEntity);
 
-            return ResponseTutorialChoiceDto.fromEntity(userCardEntity);
+            return ResponseTutorialChoiceDto.fromEntity(userCardEntity, true);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "지원하지 않는 선택지입니다.");
         }
