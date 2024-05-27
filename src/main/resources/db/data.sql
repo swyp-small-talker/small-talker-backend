@@ -65,7 +65,7 @@ VALUES (
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (302, 30, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
-VALUES (302, 'JASMINE', 'COMMON', '{userName}님 미안해요');
+VALUES (302, 'JASMINE', 'COMMON', '{name}님 미안해요');
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (303, 30, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
@@ -77,8 +77,8 @@ VALUES (305, 30, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
 VALUES (305, 'JASMINE', 'COMMON', '그럼 다음에 또 연락드릴게요!!');
 -- question 3 reaction 1
-INSERT INTO Tutorial (id, tutorialType, isStart, nextTutorialFk)
-VALUES (31, 'USER_CARD', false, NULL);
+INSERT INTO Tutorial (id, tutorialType, isStart)
+VALUES (31, 'USER_CARD', false);
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (310, 31, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
@@ -88,8 +88,8 @@ VALUES (311, 31, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
 VALUES (311, 'USER', 'COMMON', '네 감사합니다!');
 -- question 3 reaction 2
-INSERT INTO Tutorial (id, tutorialType, isStart, nextTutorialFk)
-VALUES (32, 'USER_CARD', false, 30);
+INSERT INTO Tutorial (id, tutorialType, isStart)
+VALUES (32, 'USER_CARD', false);
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (320, 32, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
@@ -103,8 +103,8 @@ VALUES (322, 32, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
 VALUES (322, 'JASMINE', 'COMMON', '00님이라도 한가하시니 다행이에요');
 -- question 3 reaction 3
-INSERT INTO Tutorial (id, tutorialType, isStart, nextTutorialFk)
-VALUES (33, 'USER_CARD', false, 30);
+INSERT INTO Tutorial (id, tutorialType, isStart)
+VALUES (33, 'USER_CARD', false);
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (330, 33, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
@@ -142,8 +142,8 @@ INSERT INTO TutorialMessageChoice (
     )
 VALUES (304, 33, 'QUESTION', '네! 좋아요 언제든지요!');
 -- question 2
-INSERT INTO Tutorial (id, tutorialType, isStart, nextTutorialFk)
-VALUES (12, 'USER_CARD', false, 30);
+INSERT INTO Tutorial (id, tutorialType, isStart)
+VALUES (12, 'USER_CARD', false);
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (200, 12, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
@@ -164,7 +164,7 @@ VALUES (
         202,
         'JASMINE',
         'COMMON',
-        '{userName} 님은 좋아하는 거 있으세요 ?'
+        '{name} 님은 좋아하는 거 있으세요 ?'
     );
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (203, 12, 'TEXT');
@@ -238,8 +238,8 @@ INSERT INTO TutorialMessageChoice (
     )
 VALUES (204, 22, 'QUESTION', '오, 운동이라니 멋지시네요 !');
 -- question 1
-INSERT INTO Tutorial (id, tutorialType, isStart, nextTutorialFk)
-VALUES (4, 'USER_CARD', TRUE, 12);
+INSERT INTO Tutorial (id, tutorialType, isStart)
+VALUES (4, 'USER_CARD', TRUE);
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (100, 4, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
@@ -342,9 +342,7 @@ INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
 VALUES (3, 'GENIE', 'COMMON', '앞으로 당신을 뭐라고 부르면 될까요 ?');
 -- INPUT
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
-VALUES (4, 1, 'INPUT');
-INSERT INTO TutorialMessageInput (messageFk, inputType)
-VALUES (4, 'USER_NAME');
+VALUES (4, 1, 'INPUT_NAME');
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (5, 1, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
@@ -352,7 +350,7 @@ VALUES (
         5,
         'GENIE',
         'COMMON',
-        '{ userName } 님 ! 멋진 이름이에요 !'
+        '{name} 님 ! 멋진 이름이에요 !'
     );
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (6, 1, 'TEXT');
@@ -361,7 +359,7 @@ VALUES (
         6,
         'GENIE',
         'COMMON',
-        '음, 우선 { userName } 님이 어떤 대화 스타일을 가지고 있는지 알아보고 싶어요 !'
+        '음, 우선 {name} 님이 어떤 대화 스타일을 가지고 있는지 알아보고 싶어요 !'
     );
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (7, 1, 'TEXT');
@@ -385,7 +383,7 @@ INSERT INTO TutorialMessage (id, tutorialFk, messageType)
 VALUES (9, 1, 'TEXT');
 INSERT INTO TutorialMessageText (messageFk, actorType, textType, content)
 VALUES (9, 'GENIE', 'COMMON', '준비 되셨나요 ?');
---준비 됐어요 reaction
+--준비 됐어요 reactionE
 INSERT INTO Tutorial (id, tutorialType, isStart, nextTutorialFk)
 VALUES (2, 'PROFILE', false, 4);
 INSERT INTO TutorialMessage (id, tutorialFk, messageType)
@@ -456,18 +454,20 @@ INSERT INTO PracticeEpisode(id, title, characterFk)
 VALUES('EP001', 'Episode 1', 'CH001');
 INSERT INTO PracticeEpisode(id, title, characterFk)
 VALUES('EP002', 'Episode 2', 'CH001');
+INSERT INTO PracticeEpisodeComplete(userFk, episodeFk)
+VALUES(1, 'EP002');
 INSERT INTO PracticeKeyword(id, category, content, episodeFk)
 VALUES('KW001', '성격', '차분함', 'EP001');
 INSERT INTO PracticeKeyword(id, category, content, episodeFk)
 VALUES('KW002', '성격', '긍정적', 'EP001');
 INSERT INTO PracticeKeyword(id, category, content, episodeFk)
 VALUES('KW003', '취향', '볶음밥', 'EP002');
-INSERT INTO PracticeSkill(id, content, episodeFk)
-VALUES('SK001', '말쏨씨', 'EP001');
-INSERT INTO PracticeSkill(id, content, episodeFk)
-VALUES('SK002', '침착함', 'EP001');
-INSERT INTO PracticeSkill(id, content, episodeFk)
-VALUES('SK003', '열정', 'EP002');
+INSERT INTO PracticeSkill(id, title, content, episodeFk)
+VALUES('SK001', '말쏨씨', '좋은 말쏨씨를 보우하고 계시군요', 'EP001');
+INSERT INTO PracticeSkill(id, title, content, episodeFk)
+VALUES('SK002', '침착함', '항상 침착하게 말합니다', 'EP001');
+INSERT INTO PracticeSkill(id, title, content, episodeFk)
+VALUES('SK003', '열정', '열정적인 분이세요', 'EP002');
 INSERT INTO PracticeMessage(
         id,
         actor,

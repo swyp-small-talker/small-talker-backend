@@ -1,6 +1,7 @@
 package com.swygbr.backend.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.swygbr.backend.user.dto.UserRequestDto;
 import com.swygbr.backend.user.dto.UserResponseDto;
+import com.swygbr.backend.user.dto.UserSkillResponseDto;
 import com.swygbr.backend.user.service.UserService;
 
 @RestController
@@ -24,6 +26,11 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<EntityModel<UserResponseDto>> getUserById(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.findUserById(userId));
+    }
+
+    @GetMapping("/{userId}/skill")
+    public ResponseEntity<CollectionModel<UserSkillResponseDto>> getUserSkill(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.findUserSkill(userId));
     }
 
     @PutMapping("/{userId}")

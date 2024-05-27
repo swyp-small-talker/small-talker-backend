@@ -28,6 +28,9 @@ import com.swygbr.backend.practice.repository.PracticeEpisodeRepository;
 import com.swygbr.backend.practice.repository.PracticeKeywordRepository;
 import com.swygbr.backend.practice.repository.PracticeMessageRepository;
 import com.swygbr.backend.practice.repository.PracticeSkillRepository;
+import com.swygbr.backend.tutorial.domain.UserCardEntity;
+import com.swygbr.backend.tutorial.enums.UserCardType;
+import com.swygbr.backend.tutorial.repository.UserCardRepository;
 import com.swygbr.backend.user.domain.UserEntity;
 import com.swygbr.backend.user.repository.UserRepository;
 
@@ -37,6 +40,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class PracticeService {
     private final UserRepository userRepository;
+    private final UserCardRepository userCardRepository;
     private final PracticeCharacterRepository characterRepository;
     private final PracticeEpisodeRepository episodeRepository;
     private final PracticeEpisodeCompleteRepository episodeCompleteRepository;
@@ -125,6 +129,11 @@ public class PracticeService {
         PracticeEpisodeComplete entity = new PracticeEpisodeComplete(user, episode);
         episodeCompleteRepository.save(entity);
 
+        // 모든 에피소드를 클리어하면 스몰토커 카드 부여
+        if (episodeCompleteRepository.hasUserCompletedAllEpisodes(userId)) {
+            UserCardEntity userCard = userCardRepository.findByTitle(UserCardType.SMALL_TALKER.getTitle());
+            user.assignUserCard(userCard);
+        }
         return EpisodeCompleteResponseDto.fromEntity(entity);
     }
 
@@ -135,5 +144,4 @@ public class PracticeService {
 
         return model;
     }
-
 }

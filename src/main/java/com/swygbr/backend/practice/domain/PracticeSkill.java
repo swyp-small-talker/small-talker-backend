@@ -17,6 +17,9 @@ public class PracticeSkill {
     private String id;
 
     @Column(length = 255)
+    private String title;
+
+    @Column(length = 255)
     private String content;
 
     @ManyToOne

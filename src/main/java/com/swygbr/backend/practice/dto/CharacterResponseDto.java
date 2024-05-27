@@ -25,6 +25,10 @@ public record CharacterResponseDto(String characterId, String name, String type,
                                 methodOn(PracticeController.class).getCharacterKeywords(dto.characterId, null))
                                 .withRel("keyword");
                 model.add(keywordLink);
+                Link skillLink = linkTo(
+                                methodOn(PracticeController.class).getCharacterSkill(dto.characterId, null))
+                                .withRel("skill");
+                model.add(skillLink);
 
                 return model;
         }

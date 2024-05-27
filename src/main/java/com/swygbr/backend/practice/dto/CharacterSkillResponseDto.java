@@ -12,14 +12,15 @@ import org.springframework.hateoas.Link;
 import com.swygbr.backend.practice.controller.PracticeController;
 import com.swygbr.backend.practice.domain.PracticeSkill;
 
-public record CharacterSkillResponseDto(int totalSkillCount, int acquireSkillCount, List<SkillResponseDto> skills) {
+public record CharacterSkillResponseDto(int totalSkillCount, int acquireSkillCount,
+        List<SkillResponseDto> acquireSkillList) {
 
     public static EntityModel<CharacterSkillResponseDto> fromEntities(String characterId, int totalSkillCount,
-            int acquireSkillCount, List<PracticeSkill> skills) {
+            int acquireSkillCount, List<PracticeSkill> acquireSkillList) {
         List<SkillResponseDto> dtoList = new ArrayList<>();
 
-        for (PracticeSkill entity : skills) {
-            SkillResponseDto dto = new SkillResponseDto(entity.getContent());
+        for (PracticeSkill entity : acquireSkillList) {
+            SkillResponseDto dto = new SkillResponseDto(entity.getTitle(), entity.getContent());
             dtoList.add(dto);
         }
 
@@ -32,7 +33,7 @@ public record CharacterSkillResponseDto(int totalSkillCount, int acquireSkillCou
         return model;
     }
 
-    record SkillResponseDto(String content) {
+    record SkillResponseDto(String title, String content) {
 
     }
 }
