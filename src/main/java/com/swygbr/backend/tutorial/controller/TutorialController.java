@@ -25,8 +25,9 @@ public class TutorialController {
 
   // 튜토리얼 상태 조회(완료여부, 시작 위치)
   @GetMapping
-  public ResponseEntity<?> getTutorialStatus() {
-    return ResponseEntity.ok(tutorialService.findTutorialStatus());
+  public ResponseEntity<CollectionModel<EntityModel<TutorialStatusDto>>> getTutorialStatus(
+      @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
+    return ResponseEntity.ok(tutorialService.findTutorialStatus(userPrincipal.getUserId()));
   }
 
   // 튜토리얼 조회

@@ -40,13 +40,19 @@ public class TutorialService {
     private final UserCardRepository userCardRepository;
     private final UserRepository userRepository;
 
-    public List<TutorialStatusDto> findTutorialStatus() {
-        UserEntity userEntity = getDefaultUser();
-        List<TutorialEntity> entities = tutorialRepository.findByIsStartTrue();
+    public CollectionModel<EntityModel<TutorialStatusDto>> findTutorialStatus(Long userId) {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."));
 
-        return entities.stream()
-                .map((entity) -> TutorialStatusDto.fromEntity(userEntity, entity))
-                .toList();
+        List<TutorialEntity> entities = tutorialRepository.findByIsStartTrue();
+        List<EntityModel<TutorialStatusDto>> list = new ArrayList<>();
+
+        for (TutorialEntity entity : entities) {
+            EntityModel<TutorialStatusDto> model = TutorialStatusDto.fromEntity(userEntity, entity);
+            list.add(model);
+        }
+
+        return CollectionModel.of(list);
     }
 
     public EntityModel<TutorialDto> findTutorialById(Long id) {
