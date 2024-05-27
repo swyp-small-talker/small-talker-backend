@@ -35,13 +35,6 @@ public class TutorialController {
     return ResponseEntity.ok(tutorialService.findTutorialById(tutorialId));
   }
 
-  // 튜토리얼 입력
-  @PostMapping("/input")
-  public ResponseEntity<?> postInput(@RequestBody @Valid RequestTutorialInputDto request) {
-    tutorialService.submitInput(request);
-    return ResponseEntity.ok().build();
-  }
-
   // 튜토리얼 선택지 제출
   @PostMapping("/choice")
   public ResponseEntity<?> postChoice(@RequestBody RequestTutorialChoiceDto request) {

@@ -38,7 +38,4 @@ public class TutorialMessageEntity {
 
     @OneToMany(mappedBy = "message", fetch = FetchType.LAZY)
     private List<TutorialMessageChoiceEntity> choices;
-
-    @OneToOne(mappedBy = "message", fetch = FetchType.EAGER)
-    private TutorialMessageInputEntity input;
 }

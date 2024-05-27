@@ -49,20 +49,10 @@ public class TutorialService {
                 .toList();
     }
 
-    public TutorialDto findTutorialById(Long id) {
+    public EntityModel<TutorialDto> findTutorialById(Long id) {
         TutorialEntity entity = tutorialRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "튜토리얼을 찾을 수 없습니다."));
         return TutorialDto.fromEntity(entity);
-    }
-
-    public void submitInput(RequestTutorialInputDto request) {
-        UserEntity userEntity = getDefaultUser();
-
-        if (request.inputType() == TutorialMessageInputType.USER_NAME) {
-            userEntity.updateName(request.data());
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "지원하지 않는 inputType입니다.");
-        }
     }
 
     private UserEntity getDefaultUser() {

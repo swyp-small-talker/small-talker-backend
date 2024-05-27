@@ -38,12 +38,6 @@ CREATE TABLE TutorialMessageText(
     content varchar(255) NOT NULL,
     FOREIGN KEY(messageFk) REFERENCES TutorialMessage(id)
 );
-CREATE TABLE TutorialMessageInput(
-    id bigint AUTO_INCREMENT PRIMARY KEY,
-    messageFk bigint UNIQUE,
-    inputType varchar(20),
-    FOREIGN KEY(messageFk) REFERENCES TutorialMessage(id)
-);
 CREATE TABLE TutorialMessageChoice(
     id bigint AUTO_INCREMENT PRIMARY KEY,
     messageFk bigint NOT NULL,
