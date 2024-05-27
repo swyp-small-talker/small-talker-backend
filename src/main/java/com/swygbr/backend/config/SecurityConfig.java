@@ -35,7 +35,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/login/**").permitAll()
-                        .requestMatchers("/user-card/small-talker").authenticated()
                         .requestMatchers("/user-card/**").permitAll()
                         .requestMatchers("/tutorial/**").authenticated()
                         .requestMatchers("/practice/**").authenticated()
