@@ -1,10 +1,13 @@
 package com.swygbr.backend.tutorial.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,12 +16,10 @@ import com.swygbr.backend.tutorial.domain.TutorialEntity;
 import com.swygbr.backend.tutorial.domain.TutorialMessageChoiceEntity;
 import com.swygbr.backend.tutorial.domain.UserCardEntity;
 import com.swygbr.backend.tutorial.dto.RequestTutorialChoiceDto;
-import com.swygbr.backend.tutorial.dto.RequestTutorialInputDto;
 import com.swygbr.backend.tutorial.dto.ResponseTutorialChoiceDto;
 import com.swygbr.backend.tutorial.dto.TutorialDto;
 import com.swygbr.backend.tutorial.dto.TutorialStatusDto;
 import com.swygbr.backend.tutorial.enums.TutorialMessageChoiceType;
-import com.swygbr.backend.tutorial.enums.TutorialMessageInputType;
 import com.swygbr.backend.tutorial.enums.TutorialMessageType;
 import com.swygbr.backend.tutorial.enums.TutorialType;
 import com.swygbr.backend.tutorial.enums.UserCardType;
@@ -40,29 +41,25 @@ public class TutorialService {
     private final UserCardRepository userCardRepository;
     private final UserRepository userRepository;
 
-    public List<TutorialStatusDto> findTutorialStatus() {
-        UserEntity userEntity = getDefaultUser();
-        List<TutorialEntity> entities = tutorialRepository.findByIsStartTrue();
+    public CollectionModel<EntityModel<TutorialStatusDto>> findTutorialStatus(Long userId) {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."));
 
-        return entities.stream()
-                .map((entity) -> TutorialStatusDto.fromEntity(userEntity, entity))
-                .toList();
+        List<TutorialEntity> entities = tutorialRepository.findByIsStartTrue();
+        List<EntityModel<TutorialStatusDto>> list = new ArrayList<>();
+
+        for (TutorialEntity entity : entities) {
+            EntityModel<TutorialStatusDto> model = TutorialStatusDto.fromEntity(userEntity, entity);
+            list.add(model);
+        }
+
+        return CollectionModel.of(list);
     }
 
-    public TutorialDto findTutorialById(Long id) {
+    public EntityModel<TutorialDto> findTutorialById(Long id) {
         TutorialEntity entity = tutorialRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "튜토리얼을 찾을 수 없습니다."));
         return TutorialDto.fromEntity(entity);
-    }
-
-    public void submitInput(RequestTutorialInputDto request) {
-        UserEntity userEntity = getDefaultUser();
-
-        if (request.inputType() == TutorialMessageInputType.USER_NAME) {
-            userEntity.updateName(request.data());
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "지원하지 않는 inputType입니다.");
-        }
     }
 
     private UserEntity getDefaultUser() {
@@ -70,7 +67,7 @@ public class TutorialService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "기본 유저를 찾을 수 없습니다."));
     }
 
-    public ResponseTutorialChoiceDto submitChoice(RequestTutorialChoiceDto request) {
+    public EntityModel<ResponseTutorialChoiceDto> completeTutorialWithChoice(RequestTutorialChoiceDto request) {
         UserEntity userEntity = getDefaultUser();
 
         if (TutorialType.USER_CARD == request.tutorialType()) {
@@ -118,7 +115,7 @@ public class TutorialService {
             }
             userEntity.assignUserCard(userCardEntity);
 
-            return ResponseTutorialChoiceDto.fromEntity(userCardEntity);
+            return ResponseTutorialChoiceDto.fromEntity(userCardEntity, true);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "지원하지 않는 선택지입니다.");
         }

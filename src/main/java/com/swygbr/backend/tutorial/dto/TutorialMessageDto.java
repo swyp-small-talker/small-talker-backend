@@ -1,19 +1,42 @@
 package com.swygbr.backend.tutorial.dto;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
+
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.swygbr.backend.login.auth.JwtUserPrincipal;
 import com.swygbr.backend.tutorial.domain.TutorialMessageEntity;
 import com.swygbr.backend.tutorial.enums.TutorialMessageType;
+import com.swygbr.backend.user.controller.UserController;
 
 @JsonInclude(Include.NON_EMPTY)
 public record TutorialMessageDto(Long id, TutorialMessageType messageType, TutorialMessageTextDto text,
-        List<TutorialMessageChoiceDto> choices, TutorialMessageInputDto input) {
-    static public TutorialMessageDto fromEntity(TutorialMessageEntity entity) {
-        return new TutorialMessageDto(entity.getId(), entity.getMessageType(),
-                TutorialMessageTextDto.fromEntity(entity.getText()),
-                entity.getChoices().stream().map(TutorialMessageChoiceDto::fromEntity).toList(),
-                TutorialMessageInputDto.fromEntity(entity.getInput()));
+        CollectionModel<EntityModel<TutorialMessageChoiceDto>> choiceList) {
+    static public EntityModel<TutorialMessageDto> fromEntity(TutorialMessageEntity entity) {
+        TutorialMessageTextDto text = TutorialMessageTextDto.fromEntity(entity.getText());
+
+        List<EntityModel<TutorialMessageChoiceDto>> choiceCollectionList = entity.getChoices().stream()
+                .map(TutorialMessageChoiceDto::fromEntity).toList();
+        CollectionModel<EntityModel<TutorialMessageChoiceDto>> choiceList = CollectionModel.of(choiceCollectionList);
+
+        TutorialMessageDto dto = new TutorialMessageDto(entity.getId(), entity.getMessageType(), text, choiceList);
+        EntityModel<TutorialMessageDto> model = EntityModel.of(dto);
+
+        if (dto.messageType == TutorialMessageType.INPUT_NAME) {
+            JwtUserPrincipal principal = (JwtUserPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            Link nextLink = linkTo(methodOn(UserController.class).putUserById(principal.getUserId(), null))
+                    .withRel("next");
+            model.add(nextLink);
+        }
+        return model;
     }
 }
