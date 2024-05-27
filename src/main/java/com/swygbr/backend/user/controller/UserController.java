@@ -4,14 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.swygbr.backend.login.auth.JwtUserPrincipal;
 import com.swygbr.backend.user.dto.UserRequestDto;
 import com.swygbr.backend.user.dto.UserResponseDto;
 import com.swygbr.backend.user.dto.UserSkillResponseDto;
@@ -23,26 +24,28 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<EntityModel<UserResponseDto>> getUserById(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.findUserById(userId));
+    @GetMapping
+    public ResponseEntity<EntityModel<UserResponseDto>> getUserById(
+            @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
+        return ResponseEntity.ok(userService.findUserById(userPrincipal.getUserId()));
     }
 
-    @GetMapping("/{userId}/skill")
-    public ResponseEntity<CollectionModel<UserSkillResponseDto>> getUserSkill(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.findUserSkill(userId));
+    @GetMapping("/skill")
+    public ResponseEntity<CollectionModel<UserSkillResponseDto>> getUserSkill(
+            @AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
+        return ResponseEntity.ok(userService.findUserSkill(userPrincipal.getUserId()));
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<?> putUserById(@PathVariable Long userId, @RequestBody UserRequestDto requestDto) {
-        userService.updateUserById(userId, requestDto);
+    @PutMapping
+    public ResponseEntity<?> putUserById(@AuthenticationPrincipal JwtUserPrincipal userPrincipal,
+            @RequestBody UserRequestDto requestDto) {
+        userService.updateUserById(userPrincipal.getUserId(), requestDto);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUserById(@PathVariable Long userId) {
-        userService.deleteUser(userId);
+    @DeleteMapping
+    public ResponseEntity<?> deleteUserById(@AuthenticationPrincipal JwtUserPrincipal userPrincipal) {
+        userService.deleteUser(userPrincipal.getUserId());
         return ResponseEntity.noContent().build();
     }
-
 }

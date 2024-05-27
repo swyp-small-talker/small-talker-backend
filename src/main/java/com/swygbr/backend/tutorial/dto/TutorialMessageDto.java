@@ -8,11 +8,9 @@ import java.util.List;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.swygbr.backend.login.auth.JwtUserPrincipal;
 import com.swygbr.backend.tutorial.domain.TutorialMessageEntity;
 import com.swygbr.backend.tutorial.enums.TutorialMessageType;
 import com.swygbr.backend.user.controller.UserController;
@@ -25,15 +23,15 @@ public record TutorialMessageDto(Long id, TutorialMessageType messageType, Tutor
 
         List<EntityModel<TutorialMessageChoiceDto>> choiceCollectionList = entity.getChoices().stream()
                 .map(TutorialMessageChoiceDto::fromEntity).toList();
-        CollectionModel<EntityModel<TutorialMessageChoiceDto>> choiceList = CollectionModel.of(choiceCollectionList);
+        CollectionModel<EntityModel<TutorialMessageChoiceDto>> choiceList = CollectionModel
+                .of(choiceCollectionList);
 
-        TutorialMessageDto dto = new TutorialMessageDto(entity.getId(), entity.getMessageType(), text, choiceList);
+        TutorialMessageDto dto = new TutorialMessageDto(entity.getId(), entity.getMessageType(), text,
+                choiceList);
         EntityModel<TutorialMessageDto> model = EntityModel.of(dto);
 
         if (dto.messageType == TutorialMessageType.INPUT_NAME) {
-            JwtUserPrincipal principal = (JwtUserPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
-            Link nextLink = linkTo(methodOn(UserController.class).putUserById(principal.getUserId(), null))
+            Link nextLink = linkTo(methodOn(UserController.class).putUserById(null, null))
                     .withRel("next");
             model.add(nextLink);
         }

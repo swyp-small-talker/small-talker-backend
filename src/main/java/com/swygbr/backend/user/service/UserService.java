@@ -45,7 +45,7 @@ public class UserService {
                     .withRel("userCard");
             model.add(userCardLink);
         }
-        Link skillLink = linkTo(methodOn(UserController.class).getUserSkill(userId))
+        Link skillLink = linkTo(methodOn(UserController.class).getUserSkill(null))
                 .withRel("skill");
         model.add(skillLink);
 
@@ -56,7 +56,7 @@ public class UserService {
         List<PracticeSkill> skillList = skillRepository.findAllSkillsByUserId(userId);
         List<UserSkillResponseDto> list = skillList.stream().map(UserSkillResponseDto::fromEntity).toList();
         CollectionModel<UserSkillResponseDto> model = CollectionModel.of(list);
-        Link userLink = linkTo(methodOn(UserController.class).getUserById(userId))
+        Link userLink = linkTo(methodOn(UserController.class).getUserById(null))
                 .withRel("user");
         model.add(userLink);
         return model;
