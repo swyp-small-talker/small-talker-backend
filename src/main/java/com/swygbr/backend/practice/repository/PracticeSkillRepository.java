@@ -39,4 +39,14 @@ public interface PracticeSkillRepository extends JpaRepository<PracticeSkill, St
             """)
     List<PracticeSkill> findAcquiredSkillsByUserIdAndCharacterId(@Param("userId") Long userId,
             @Param("characterId") String characterId);
+
+    // 회원이 획득한 모든 스킬 조회
+    @Query("""
+            SELECT s
+            FROM PracticeEpisodeComplete ec
+            JOIN ec.episode ep
+            JOIN ep.skills s
+            WHERE ec.user.id = :userId
+            """)
+    List<PracticeSkill> findAllSkillsByUserId(@Param("userId") Long userId);
 }
