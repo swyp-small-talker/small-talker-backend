@@ -16,13 +16,13 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    // Resource Not Found Exception
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+    // 요청한 리소스가 없을 떄 처리
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(NoResourceFoundException ex) {
         ErrorDetails errorDetails = new ErrorDetails(
                 new Date(),
                 ex.getMessage(),
-                request.getDescription(false));
+                ex.getLocalizedMessage());
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, ex.getStatusCode());
     }
 
-    // Generic Exception handler for other exceptions
+    // 처리되지 않는 예외는 전부 여기로
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGlobalException(Exception ex, WebRequest request) {
         ErrorDetails errorDetails = new ErrorDetails(
