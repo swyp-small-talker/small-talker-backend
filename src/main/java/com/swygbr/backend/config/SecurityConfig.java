@@ -35,10 +35,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/login/**").permitAll()
-                        .requestMatchers("/user-card/**").permitAll()
                         .requestMatchers("/tutorial/**").authenticated()
+                        .requestMatchers("/user-card/**").permitAll()
                         .requestMatchers("/practice/**").authenticated()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/user/**").authenticated()
+                        .anyRequest().permitAll())
                 .addFilterBefore(jwtCookieFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -47,7 +48,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(
-                Arrays.asList("http://localhost:3000", "http://localhost:8080", "https://swygbr.com"));
+                Arrays.asList("http://localhost:3000", "http://localhost:8080", "https://jskim.click"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
