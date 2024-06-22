@@ -3,6 +3,7 @@
 # 환경 변수 설정
 PROJECT_DIR="/home/ec2-user/small-talker-backend"
 JAR_NAME="backend-0.1.jar"
+mkdir /var/log/small-talker
 LOG_FILE="/var/log/small-talker/backend.log"
 
 # 배포 로그 출력
