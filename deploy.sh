@@ -3,8 +3,7 @@
 # 환경 변수 설정
 PROJECT_DIR="/home/ec2-user/small-talker-backend"
 JAR_NAME="backend-0.1.jar"
-GIT_BRANCH="main"
-LOG_FILE="$PROJECT_DIR/small-talker.log"
+LOG_FILE="/var/log/small-talker/backend.log"
 
 # 배포 로그 출력
 echo "Deploying Spring Boot application..."
@@ -14,7 +13,8 @@ cd $PROJECT_DIR
 
 # 최신 코드 가져오기
 echo "Pulling latest code from Git..."
-git pull origin $GIT_BRANCH
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+git pull origin $CURRENT_BRANCH
 
 # Gradle 빌드
 echo "Building the project with Gradle..."
@@ -38,6 +38,16 @@ fi
 # 새 애플리케이션 실행
 echo "Starting new application..."
 
-nohup java -jar -Dspring.profiles.active=dev $PROJECT_DIR/build/libs/$JAR_NAME > $LOG_FILE 2>&1 &
+case $1 in 
+    "prod")
+        nohup java -jar -Dspring.profiles.active=prod $PROJECT_DIR/build/libs/$JAR_NAME > $LOG_FILE 2>&1 &
+        ;;
+    "dev")
+        nohup java -jar -Dspring.profiles.active=dev $PROJECT_DIR/build/libs/$JAR_NAME > $LOG_FILE 2>&1 &
+        ;;
+    *)
+        nohup java -jar -Dspring.profiles.active=dev $PROJECT_DIR/build/libs/$JAR_NAME > $LOG_FILE 2>&1 &
+        ;;
+esac
 
 echo "Deployment completed."
