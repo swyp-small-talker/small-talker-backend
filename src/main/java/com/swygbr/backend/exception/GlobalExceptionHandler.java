@@ -12,11 +12,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.swygbr.backend.exception.http_exceptions.BadRequestException;
-import com.swygbr.backend.exception.http_exceptions.ForbiddenException;
-import com.swygbr.backend.exception.http_exceptions.InternalServerErrorException;
-import com.swygbr.backend.exception.http_exceptions.ResourceNotFoundException;
-import com.swygbr.backend.exception.http_exceptions.UnauthorizedException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -28,16 +24,6 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-    }
-
-    // Bad Request Exception
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<?> handleBadRequestException(BadRequestException ex, WebRequest request) {
-        ErrorDetails errorDetails = new ErrorDetails(
-                new Date(),
-                ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -68,36 +54,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
-    // Unauthorized Access Exception
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<?> handleUnauthorizedException(UnauthorizedException ex, WebRequest request) {
-        ErrorDetails errorDetails = new ErrorDetails(
-                new Date(),
-                ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
-    }
-
-    // Forbidden Access Exception
-    @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<?> handleForbiddenException(ForbiddenException ex, WebRequest request) {
-        ErrorDetails errorDetails = new ErrorDetails(
-                new Date(),
-                ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.FORBIDDEN);
-    }
-
-    // Internal Server Error Exception
-    @ExceptionHandler(InternalServerErrorException.class)
-    public ResponseEntity<?> handleInternalServerErrorException(InternalServerErrorException ex, WebRequest request) {
-        ErrorDetails errorDetails = new ErrorDetails(
-                new Date(),
-                ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
+    // controller나 service에서 발생한 ResponseStatusException 처리
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<?> handleGlobalException(ResponseStatusException ex) {
         ErrorDetails errorDetails = new ErrorDetails(
